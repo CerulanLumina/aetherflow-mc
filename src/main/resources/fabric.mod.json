@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "modid",
+  "version": "${version}",
+
+  "name": "Aetherflow",
+  "description": "Magic-themed tech mod for automation addicts",
+  "authors": [
+    "Cerulan Lumina"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "MIT",
+  "icon": "assets/aetherflow/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [{
+      "adapter": "kotlin",
+      "value": "net.cerulan.aetherflow.AetherflowMod"
+    }],
+    "client": [{
+      "adapter": "kotlin",
+      "value": "net.cerulan.aetherflow.client.AetherflowModClient"
+    }]
+  },
+  "mixins": [
+    "aetherflow.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.1",
+    "fabric": "*",
+    "fabric-language-kotlin": "*",
+    "minecraft": "1.15.x"
+  }
+}

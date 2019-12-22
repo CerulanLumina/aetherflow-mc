@@ -1,0 +1,9 @@
+.gradle
+.idea
+aetherflow.iml
+aetherflow.iws
+aetherflow.ipr
+build
+gradle
+run
+

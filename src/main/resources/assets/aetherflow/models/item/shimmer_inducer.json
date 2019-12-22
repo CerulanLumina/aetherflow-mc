@@ -1,0 +1,22 @@
+{
+	"parent": "aetherflow:block/shimmer_inducer",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [0, 2, 0]
+		},
+		"thirdperson_righthand": {
+			"translation": [0, 2, 0]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 2, 0]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 2, 0]
+		},
+		"gui": {
+			"translation": [0, 2, 0],
+			"scale": [1.25, 1.25, 1.25],
+			"rotation": [15, 45, 0]
+		}
+	}
+}

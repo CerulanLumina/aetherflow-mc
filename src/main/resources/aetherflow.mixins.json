@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "net.cerulan.aetherflow.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "AetherFlowMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

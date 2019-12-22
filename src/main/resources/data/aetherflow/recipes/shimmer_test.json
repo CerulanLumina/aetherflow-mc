@@ -1,0 +1,8 @@
+{
+  "type": "aetherflow:shimmer_inducer",
+  "group": "uwu",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": "aetherflow:shimmering_ingot"
+}
