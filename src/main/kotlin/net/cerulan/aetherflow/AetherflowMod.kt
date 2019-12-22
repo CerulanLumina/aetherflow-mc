@@ -1,5 +1,6 @@
 package net.cerulan.aetherflow
 
+import net.cerulan.aetherflow.blockentity.AetherFurnace
 import net.cerulan.aetherflow.blockentity.ShimmerInducer
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.fabricmc.api.ModInitializer
@@ -22,11 +23,14 @@ object AetherflowMod : ModInitializer {
 
     private fun registerBlocks() {
         registerBlock("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER)
+        registerBlock("aether_furnace", AetherflowBlocks.AETHER_FURNACE)
     }
 
     private fun registerBlockEntities() {
         AetherflowBlocks.SHIMMER_INDUCER_ENTITY =
             registerBlockEntity("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER, Supplier { ShimmerInducer() })
+        AetherflowBlocks.AETHER_FURNACE_ENTITY =
+            registerBlockEntity("aether_furnace", AetherflowBlocks.AETHER_FURNACE, Supplier { AetherFurnace() })
     }
 
     private fun registerItems() {
