@@ -14,7 +14,7 @@ import net.minecraft.util.DefaultedList
 import net.minecraft.util.Hand
 import net.minecraft.util.Tickable
 
-class ShimmerInducer: BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY), SimpleInventory,
+class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY), SimpleInventory,
     BlockEntityClientSerializable, Tickable {
 
     companion object {
@@ -78,12 +78,20 @@ class ShimmerInducer: BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY), Simp
         Inventories.fromTag(tag.getCompound("item"), items)
     }
 
+    var lastTime = 0L
+
     override fun tick() {
-        val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, this, world)
-        if (res.isPresent) {
-            val recipe = res.get()
-            setInvStack(0, recipe.output)
+        if (world!!.isClient) return
+        if (world!!.timeOfDay > 6000 && lastTime <= 6000) {
+            println("lastTime: $lastTime, timeDay: ${world!!.timeOfDay}")
+            val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, this, world)
+            if (res.isPresent) {
+                val recipe = res.get()
+                setInvStack(0, recipe.output)
+                sync()
+            }
         }
+        lastTime = world!!.timeOfDay
     }
 
 }

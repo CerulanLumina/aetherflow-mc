@@ -35,13 +35,13 @@ class ShimmerInducerRecipe(
         return AetherflowRecipeSerializers.SHIMMER_INDUCER_SERIALIZER
     }
 
-    override fun getOutput() = out
+    override fun getOutput() = out.copy()
 
     override fun matches(inv: Inventory, world: World) = input.test(inv.getInvStack(0))
 
     override fun getGroup() = grp
 
-    object Serializer: RecipeSerializer<ShimmerInducerRecipe> {
+    object Serializer : RecipeSerializer<ShimmerInducerRecipe> {
         override fun write(buf: PacketByteBuf, recipe: ShimmerInducerRecipe) {
             buf.writeString(recipe.group)
             buf.writeItemStack(recipe.output)

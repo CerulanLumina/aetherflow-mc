@@ -18,12 +18,21 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object BlockShimmerInducer: Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(0.33f, 5f).build()), BlockEntityProvider {
+object BlockShimmerInducer :
+    Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(0.33f, 5f).build()),
+    BlockEntityProvider {
     override fun createBlockEntity(view: BlockView?): BlockEntity? {
         return ShimmerInducer()
     }
 
-    override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, hand: Hand, blockHitResult: BlockHitResult): ActionResult {
+    override fun onUse(
+        blockState: BlockState,
+        world: World,
+        blockPos: BlockPos,
+        player: PlayerEntity,
+        hand: Hand,
+        blockHitResult: BlockHitResult
+    ): ActionResult {
         if (world.isClient || hand == Hand.OFF_HAND) return ActionResult.SUCCESS
         val inv = world.getBlockEntity(blockPos) as ShimmerInducer
         inv.interact(player)

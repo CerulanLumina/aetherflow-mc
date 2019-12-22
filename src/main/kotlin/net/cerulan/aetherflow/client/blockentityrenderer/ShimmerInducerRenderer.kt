@@ -11,7 +11,8 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.client.util.math.Vector3f
 import kotlin.math.sin
 
-class ShimmerInducerRenderer(dispatcher: BlockEntityRenderDispatcher) : BlockEntityRenderer<ShimmerInducer>(dispatcher) {
+class ShimmerInducerRenderer(dispatcher: BlockEntityRenderDispatcher) :
+    BlockEntityRenderer<ShimmerInducer>(dispatcher) {
     override fun render(
         blockEntity: ShimmerInducer,
         tickDelta: Float,
@@ -28,7 +29,14 @@ class ShimmerInducerRenderer(dispatcher: BlockEntityRenderDispatcher) : BlockEnt
         matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion((blockEntity.world!!.time + tickDelta) * 1))
         matrices.scale(0.5f, 0.5f, 0.5f)
         val lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.world, blockEntity.pos.up())
-        MinecraftClient.getInstance().itemRenderer.renderItem(stack, ModelTransformation.Mode.GROUND, lightAbove, overlay, matrices, vertexConsumers)
+        MinecraftClient.getInstance().itemRenderer.renderItem(
+            stack,
+            ModelTransformation.Mode.GROUND,
+            lightAbove,
+            overlay,
+            matrices,
+            vertexConsumers
+        )
         matrices.pop()
     }
 }

@@ -28,7 +28,8 @@ object AetherflowMod : ModInitializer {
     }
 
     private fun registerBlockEntities() {
-        AetherflowBlocks.SHIMMER_INDUCER_ENTITY = registerBlockEntity("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER, Supplier { ShimmerInducer() })
+        AetherflowBlocks.SHIMMER_INDUCER_ENTITY =
+            registerBlockEntity("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER, Supplier { ShimmerInducer() })
     }
 
     private fun registerItems() {
@@ -36,16 +37,27 @@ object AetherflowMod : ModInitializer {
     }
 
     private fun registerRecipes() {
-        AetherflowRecipeTypes.SHIMMER_INDUCER = Registry.register(Registry.RECIPE_TYPE, Identifier("aetherflow", "shimmer_inducer"), object : RecipeType<ShimmerInducerRecipe> {
-            override fun toString(): String {
-                return "aetherflow:shimmer_inducer"
-            }
-        })
-        AetherflowRecipeSerializers.SHIMMER_INDUCER_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, Identifier("aetherflow", "shimmer_inducer"), ShimmerInducerRecipe.Serializer)
+        AetherflowRecipeTypes.SHIMMER_INDUCER = Registry.register(
+            Registry.RECIPE_TYPE,
+            Identifier("aetherflow", "shimmer_inducer"),
+            object : RecipeType<ShimmerInducerRecipe> {
+                override fun toString(): String {
+                    return "aetherflow:shimmer_inducer"
+                }
+            })
+        AetherflowRecipeSerializers.SHIMMER_INDUCER_SERIALIZER = Registry.register(
+            Registry.RECIPE_SERIALIZER,
+            Identifier("aetherflow", "shimmer_inducer"),
+            ShimmerInducerRecipe.Serializer
+        )
     }
 
-    private fun <T: BlockEntity> registerBlockEntity(id: String, block: Block, sup: Supplier<T>): BlockEntityType<T> {
-        return Registry.register(Registry.BLOCK_ENTITY, Identifier("aetherflow", id), BlockEntityType.Builder.create(sup, block).build(null))
+    private fun <T : BlockEntity> registerBlockEntity(id: String, block: Block, sup: Supplier<T>): BlockEntityType<T> {
+        return Registry.register(
+            Registry.BLOCK_ENTITY,
+            Identifier("aetherflow", id),
+            BlockEntityType.Builder.create(sup, block).build(null)
+        )
     }
 
     private fun registerBlock(id: String, block: Block, item: Boolean = true) {
@@ -63,7 +75,7 @@ object AetherflowMod : ModInitializer {
     }
 
     private fun <T> register(reg: Registry<T>, id: Identifier, obj: T) {
-        Registry.register(reg, id, obj);
+        Registry.register(reg, id, obj)
     }
 
 }
