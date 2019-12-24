@@ -1,9 +1,9 @@
 package net.cerulan.aetherflow.blockentity
 
 import alexiil.mc.lib.attributes.Simulation
-import alexiil.mc.lib.attributes.item.impl.FullFixedItemInv
 import net.cerulan.aetherflow.AetherflowBlocks
 import net.cerulan.aetherflow.inventory.InventoryWrapper
+import net.cerulan.aetherflow.inventory.ShimmerInducerItemInv
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
@@ -19,32 +19,44 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY),
         val RECIPE_TYPE = AetherflowRecipeTypes.SHIMMER_INDUCER
     }
 
-    val inventory = FullFixedItemInv(1)
+    val inventory = ShimmerInducerItemInv(this)
+    var outputting = false
+
+    init {
+        inventory.addListener(
+            { view, slot, previous, current ->
+                run {
+                    sync()
+                    if (!previous.isEmpty && current.isEmpty) {
+                        outputting = false
+                    }
+                }
+            },
+            { })
+    }
 
     fun interact(player: PlayerEntity) {
-
         if (!player.getStackInHand(Hand.MAIN_HAND).isEmpty) {
             if (inventory.getInvStack(0).isEmpty) {
                 val stack = player.getStackInHand(Hand.MAIN_HAND).copy()
-                if (world!!.recipeManager.getFirstMatch(
-                        RECIPE_TYPE,
-                        InventoryWrapper.create(inventory),
-                        world
-                    ).isPresent
-                ) {
-                    stack.count = 1
-                    inventory.setInvStack(0, stack, Simulation.ACTION)
-                    player.getStackInHand(Hand.MAIN_HAND).count--
+                stack.count = 1
+                if (inventory.setInvStack(0, stack, Simulation.ACTION)) {
+                    --player.getStackInHand(Hand.MAIN_HAND).count
                 }
             } else {
-                val drop = player.dropStack(inventory.getInvStack(0).copy())
-                drop!!.setPickupDelay(0)
-                inventory.extract(1)
+                val ext = inventory.extract(1)
+                if (!ext.isEmpty) {
+                    val drop = player.dropStack(ext)
+                    drop!!.setPickupDelay(0)
+                }
+
             }
         } else if (!inventory.getInvStack(0).isEmpty) {
-            val drop = player.dropStack(inventory.getInvStack(0).copy())
-            drop!!.setPickupDelay(0)
-            inventory.extract(1)
+            val ext = inventory.extract(1)
+            if (!ext.isEmpty) {
+                val drop = player.dropStack(ext)
+                drop!!.setPickupDelay(0)
+            }
         }
         sync()
     }
@@ -77,6 +89,7 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY),
             val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, InventoryWrapper.create(inventory), world)
             if (res.isPresent) {
                 val recipe = res.get()
+                outputting = true
                 inventory.setInvStack(0, recipe.output, Simulation.ACTION)
                 sync()
             }

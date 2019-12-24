@@ -21,7 +21,7 @@ class ShimmerInducerRenderer(dispatcher: BlockEntityRenderDispatcher) :
         light: Int,
         overlay: Int
     ) {
-        val stack = blockEntity.getInvStack(0)
+        val stack = blockEntity.inventory.getInvStack(0)
         if (stack.isEmpty) return
         matrices.push()
         val offset = sin((blockEntity.world!!.time + tickDelta) / 4) / 80.0
