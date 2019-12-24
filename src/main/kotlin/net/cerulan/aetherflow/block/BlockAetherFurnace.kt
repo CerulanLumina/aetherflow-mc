@@ -1,7 +1,6 @@
 package net.cerulan.aetherflow.block
 
 import net.cerulan.aetherflow.blockentity.AetherFurnace
-import net.cerulan.aetherflow.blockentity.ShimmerInducer
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
@@ -36,7 +35,6 @@ object BlockAetherFurnace :
         /* TODO */
         return ActionResult.SUCCESS
     }
-
 
 
 }
