@@ -19,48 +19,53 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY),
         val RECIPE_TYPE = AetherflowRecipeTypes.SHIMMER_INDUCER
     }
 
-    private val inv = FullFixedItemInv(1)
+    val inventory = FullFixedItemInv(1)
 
     fun interact(player: PlayerEntity) {
 
         if (!player.getStackInHand(Hand.MAIN_HAND).isEmpty) {
-            if (inv.getInvStack(0).isEmpty) {
+            if (inventory.getInvStack(0).isEmpty) {
                 val stack = player.getStackInHand(Hand.MAIN_HAND).copy()
-                if (world!!.recipeManager.getFirstMatch(RECIPE_TYPE, InventoryWrapper.create(inv), world).isPresent) {
+                if (world!!.recipeManager.getFirstMatch(
+                        RECIPE_TYPE,
+                        InventoryWrapper.create(inventory),
+                        world
+                    ).isPresent
+                ) {
                     stack.count = 1
-                    inv.setInvStack(0, stack, Simulation.ACTION)
+                    inventory.setInvStack(0, stack, Simulation.ACTION)
                     player.getStackInHand(Hand.MAIN_HAND).count--
                 }
             } else {
-                val drop = player.dropStack(inv.getInvStack(0).copy())
+                val drop = player.dropStack(inventory.getInvStack(0).copy())
                 drop!!.setPickupDelay(0)
-                inv.extract(1)
+                inventory.extract(1)
             }
-        } else if (!inv.getInvStack(0).isEmpty) {
-            val drop = player.dropStack(inv.getInvStack(0).copy())
+        } else if (!inventory.getInvStack(0).isEmpty) {
+            val drop = player.dropStack(inventory.getInvStack(0).copy())
             drop!!.setPickupDelay(0)
-            inv.extract(1)
+            inventory.extract(1)
         }
         sync()
     }
 
     override fun fromTag(tag: CompoundTag) {
         super.fromTag(tag)
-        inv.fromTag(tag.getCompound("inventory"))
+        inventory.fromTag(tag.getCompound("inventory"))
     }
 
     override fun toTag(tag: CompoundTag): CompoundTag {
-        tag.put("inventory", inv.toTag())
+        tag.put("inventory", inventory.toTag())
         return super.toTag(tag)
     }
 
     override fun toClientTag(tag: CompoundTag): CompoundTag {
-        tag.put("inventory", inv.toTag())
+        tag.put("inventory", inventory.toTag())
         return tag
     }
 
     override fun fromClientTag(tag: CompoundTag) {
-        inv.fromTag(tag.getCompound("inventory"))
+        inventory.fromTag(tag.getCompound("inventory"))
     }
 
     var lastTime = 0L
@@ -69,10 +74,10 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY),
         if (world!!.isClient) return
         if (world!!.timeOfDay > 6000 && lastTime <= 6000) {
             println("lastTime: $lastTime, timeDay: ${world!!.timeOfDay}")
-            val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, InventoryWrapper.create(inv), world)
+            val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, InventoryWrapper.create(inventory), world)
             if (res.isPresent) {
                 val recipe = res.get()
-                inv.setInvStack(0, recipe.output, Simulation.ACTION)
+                inventory.setInvStack(0, recipe.output, Simulation.ACTION)
                 sync()
             }
         }
