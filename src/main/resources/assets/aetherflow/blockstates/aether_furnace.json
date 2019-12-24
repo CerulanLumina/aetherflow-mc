@@ -1,7 +1,8 @@
 {
   "variants": {
-    "": {
-      "model": "aetherflow:block/aether_furnace"
-    }
+    "facing=north": { "model": "aetherflow:block/aether_furnace" },
+    "facing=east":  { "model": "aetherflow:block/aether_furnace", "y":  90},
+    "facing=south": { "model": "aetherflow:block/aether_furnace", "y": 180 },
+    "facing=west":  { "model": "aetherflow:block/aether_furnace", "y": 270 }
   }
 }
