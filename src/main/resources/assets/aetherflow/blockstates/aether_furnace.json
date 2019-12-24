@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "aetherflow:block/aether_furnace"}
+    "": {
+      "model": "aetherflow:block/aether_furnace"
+    }
   }
 }
