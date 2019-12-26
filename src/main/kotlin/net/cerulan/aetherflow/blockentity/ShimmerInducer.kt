@@ -21,6 +21,10 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY),
 
     val inventory = ShimmerInducerItemInv(this)
     var outputting = false
+        set(v) {
+            field = v
+            world?.updateNeighbors(pos, cachedState.block)
+        }
 
     init {
         inventory.addListener(

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "aetherflow",
   "version": "${version}",
   "name": "Aetherflow",
   "description": "Magic-themed tech mod for automation addicts",

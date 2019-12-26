@@ -50,9 +50,7 @@ object BlockShimmerInducer :
         view: BlockView,
         pos: BlockPos,
         ePos: EntityContext
-    ): VoxelShape {
-        return VoxelShapes.cuboid(0.3125, 0.0, 0.3125, 0.6875, 0.6875, 0.6875)
-    }
+    ): VoxelShape = VoxelShapes.cuboid(0.3125, 0.0, 0.3125, 0.6875, 0.6875, 0.6875)
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, to: AttributeList<*>) {
         val be = world.getBlockEntity(pos)
@@ -67,6 +65,15 @@ object BlockShimmerInducer :
             return InventoryWrapper.create(be.inventory)
         }
         return null
+    }
+
+    override fun hasComparatorOutput(state: BlockState?) = true
+
+    override fun getComparatorOutput(state: BlockState?, world: World?, pos: BlockPos?): Int {
+        val be = world?.getBlockEntity(pos)
+        if (be is ShimmerInducer) {
+            return if (be.outputting) 15 else 0
+        } else return 0
     }
 
 }
