@@ -2,7 +2,7 @@ package net.cerulan.aetherflow.inventory
 
 import alexiil.mc.lib.attributes.item.filter.ItemFilter
 import alexiil.mc.lib.attributes.item.impl.FullFixedItemInv
-import net.cerulan.aetherflow.blockentity.ShimmerInducer
+import net.cerulan.aetherflow.block.entity.ShimmerInducer
 import net.minecraft.inventory.CraftingResultInventory
 import net.minecraft.item.ItemStack
 

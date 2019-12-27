@@ -1,6 +1,8 @@
 package net.cerulan.aetherflow.block
 
-import net.cerulan.aetherflow.blockentity.AetherFurnace
+import alexiil.mc.lib.attributes.AttributeList
+import alexiil.mc.lib.attributes.AttributeProvider
+import net.cerulan.aetherflow.block.entity.AetherFurnace
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
@@ -23,6 +25,7 @@ import net.minecraft.world.World
 
 object BlockAetherFurnace :
     Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(1f, 5f).sounds(BlockSoundGroup.METAL).build()),
+    AttributeProvider,
     BlockEntityProvider {
 
     object Props {
@@ -57,5 +60,12 @@ object BlockAetherFurnace :
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState = defaultState.with(Props.FACING, ctx.playerFacing.opposite)
+
+    override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, to: AttributeList<*>) {
+        val be = world.getBlockEntity(pos)
+        if (be is AetherFurnace) {
+            to.offer(be.aetherNode)
+        }
+    }
 
 }

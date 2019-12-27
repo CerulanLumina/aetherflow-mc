@@ -2,8 +2,8 @@ package net.cerulan.aetherflow
 
 import net.cerulan.aetherflow.block.BlockAetherFurnace
 import net.cerulan.aetherflow.block.BlockShimmerInducer
-import net.cerulan.aetherflow.blockentity.AetherFurnace
-import net.cerulan.aetherflow.blockentity.ShimmerInducer
+import net.cerulan.aetherflow.block.entity.AetherFurnace
+import net.cerulan.aetherflow.block.entity.ShimmerInducer
 import net.minecraft.block.entity.BlockEntityType
 
 object AetherflowBlocks {

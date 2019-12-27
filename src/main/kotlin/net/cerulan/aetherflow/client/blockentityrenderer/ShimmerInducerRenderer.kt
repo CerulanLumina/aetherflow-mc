@@ -1,6 +1,6 @@
 package net.cerulan.aetherflow.client.blockentityrenderer
 
-import net.cerulan.aetherflow.blockentity.ShimmerInducer
+import net.cerulan.aetherflow.block.entity.ShimmerInducer
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.WorldRenderer

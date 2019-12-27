@@ -2,7 +2,7 @@ package net.cerulan.aetherflow.block
 
 import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
-import net.cerulan.aetherflow.blockentity.ShimmerInducer
+import net.cerulan.aetherflow.block.entity.ShimmerInducer
 import net.cerulan.aetherflow.inventory.InventoryWrapper
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.*
@@ -22,7 +22,7 @@ import net.minecraft.world.World
 
 
 object BlockShimmerInducer :
-    Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(0.33f, 5f).build()),
+    Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(0.33f, 15f).build()),
     BlockEntityProvider,
     AttributeProvider,
     InventoryProvider {

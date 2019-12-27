@@ -1,4 +1,4 @@
-package net.cerulan.aetherflow.blockentity
+package net.cerulan.aetherflow.block.entity
 
 import alexiil.mc.lib.attributes.Simulation
 import net.cerulan.aetherflow.AetherflowBlocks
