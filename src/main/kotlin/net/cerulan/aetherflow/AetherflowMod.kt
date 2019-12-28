@@ -2,6 +2,7 @@ package net.cerulan.aetherflow
 
 import net.cerulan.aetherflow.block.entity.AetherFurnace
 import net.cerulan.aetherflow.block.entity.ShimmerInducer
+import net.cerulan.aetherflow.event.AetherNetworkHooks
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.fabricmc.api.ModInitializer
 import net.minecraft.block.Block
@@ -19,6 +20,7 @@ object AetherflowMod : ModInitializer {
         registerBlocks()
         registerBlockEntities()
         AetherflowRecipeTypes.registerRecipes()
+        AetherNetworkHooks.register()
     }
 
     private fun registerBlocks() {
