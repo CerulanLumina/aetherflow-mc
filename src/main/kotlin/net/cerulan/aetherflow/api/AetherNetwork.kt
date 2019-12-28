@@ -1,5 +1,6 @@
 package net.cerulan.aetherflow.api
 
+import alexiil.mc.lib.attributes.SearchOptions
 import com.google.common.collect.ImmutableSet
 import net.cerulan.aetherflow.api.attr.AetherNode
 import net.cerulan.aetherflow.api.attr.AetherNodeMode
@@ -20,10 +21,10 @@ class AetherNetwork internal constructor(val world: World) {
         } else AetherPower(0, 0)
     }
 
-    private fun updateNodeFromPos(blockPos: BlockPos?): AetherNode? {
-        return if (blockPos is BlockPos) {
+    private fun updateNodeFromPos(blockPos: BlockPos?, direction: Direction?): AetherNode? {
+        return if (blockPos is BlockPos && direction != null) {
             if (world.isChunkLoaded(blockPos.x.shr(4), blockPos.z.shr(4))) {
-                val srcNode = AetherAttributes.AETHER_NODE.getFirstOrNull(world, blockPos)
+                val srcNode = AetherAttributes.AETHER_NODE.getFirstOrNull(world, blockPos, SearchOptions.inDirection(direction))
                 if (srcNode is AetherNode) {
                     srcNode
                 } else {
@@ -37,8 +38,8 @@ class AetherNetwork internal constructor(val world: World) {
 
     internal fun tick() {
 
-        source.node = updateNodeFromPos(source.pos)
-        sink.node = updateNodeFromPos(sink.pos)
+        source.node = updateNodeFromPos(source.pos, source.direction)
+        sink.node = updateNodeFromPos(sink.pos, sink.direction)
 
         if (source.node != null && sink.node != null) {
             sink.node!!.radiance = source.node!!.radiance
@@ -53,18 +54,20 @@ class AetherNetwork internal constructor(val world: World) {
         containedBlocks.add(pos)
     }
 
-    internal fun addNodeToNetwork(pos: BlockPos): Boolean {
-        val node = AetherAttributes.AETHER_NODE.getFirstOrNull(world, pos)
+    internal fun addNodeToNetwork(pos: BlockPos, direction: Direction): Boolean {
+        val node = AetherAttributes.AETHER_NODE.getFirstOrNull(world, pos, SearchOptions.inDirection(direction))
             ?: throw IllegalArgumentException("Attempted to add node block at $pos to network but it did not have node attribute")
 
         if (node.mode == AetherNodeMode.SINK) {
             if (sink.node != null) return false
             sink.node = node
             sink.pos = BlockPos(pos)
+            sink.direction = direction
         } else {
             if (source.node != null) return false
             source.node = node
             source.pos = BlockPos(pos)
+            source.direction = direction
         }
         return true
     }
@@ -74,11 +77,9 @@ class AetherNetwork internal constructor(val world: World) {
             containedBlocks.remove(pos)
         } else {
             if (source.pos is BlockPos && source.pos!! == pos) {
-                source.pos = null
-                source.node = null
+                source.clear()
             } else if (sink.pos is BlockPos && sink.pos!! == pos) {
-                sink.pos = null
-                sink.node = null
+                sink.clear()
             } else {
                 throw IllegalArgumentException("Attempted to remove block at $pos from network, but it was not in the network")
             }
@@ -97,20 +98,8 @@ class AetherNetwork internal constructor(val world: World) {
             val z = contained[i + 2]
             containedBlocks.add(BlockPos(x, y, z))
         }
-        if (tag.contains("source.pos")) {
-            val spos = tag.getCompound("source.pos")
-            val x = spos.getInt("x")
-            val y = spos.getInt("y")
-            val z = spos.getInt("z")
-            source.pos = BlockPos(x, y, z)
-        }
-        if (tag.contains("sink.pos")) {
-            val spos = tag.getCompound("sink.pos")
-            val x = spos.getInt("x")
-            val y = spos.getInt("y")
-            val z = spos.getInt("z")
-            sink.pos = BlockPos(x, y, z)
-        }
+        source.fromNBT(tag.getCompound("source"))
+        sink.fromNBT(tag.getCompound("sink"))
     }
 
     internal fun toNBT(tag: CompoundTag): CompoundTag {
@@ -124,20 +113,8 @@ class AetherNetwork internal constructor(val world: World) {
             }
         }
         tag.putIntArray("contained", list)
-        if (source.pos is BlockPos) {
-            val spos = CompoundTag()
-            spos.putInt("x", source.pos!!.x)
-            spos.putInt("y", source.pos!!.y)
-            spos.putInt("z", source.pos!!.z)
-            tag.put("source.pos", spos)
-        }
-        if (sink.pos is BlockPos) {
-            val spos = CompoundTag()
-            spos.putInt("x", sink.pos!!.x)
-            spos.putInt("y", sink.pos!!.y)
-            spos.putInt("z", sink.pos!!.z)
-            tag.put("sink.pos", spos)
-        }
+        tag.put("source", source.toNBT(CompoundTag()))
+        tag.put("sink", sink.toNBT(CompoundTag()))
         return tag
     }
 
@@ -154,6 +131,30 @@ class AetherNetwork internal constructor(val world: World) {
             pos = null
             direction = null
         }
+
+        fun toNBT(tag: CompoundTag): CompoundTag {
+            if (pos != null) {
+                tag.putInt("x", pos!!.x)
+                tag.putInt("y", pos!!.y)
+                tag.putInt("z", pos!!.z)
+                tag.putInt("dir", direction!!.id)
+            }
+            return tag
+        }
+
+        fun fromNBT(tag: CompoundTag) {
+            clear()
+            if (tag.contains("x")) {
+                val x = tag.getInt("x")
+                val y = tag.getInt("y")
+                val z = tag.getInt("z")
+                val dir = tag.getInt("dir")
+
+                pos = BlockPos(x, y, z)
+                direction = Direction.byId(dir)
+            }
+        }
+
     }
 
     val source: ConnectedNode = ConnectedNode()
