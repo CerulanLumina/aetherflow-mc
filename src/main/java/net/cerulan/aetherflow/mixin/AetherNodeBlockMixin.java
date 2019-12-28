@@ -22,8 +22,8 @@ public abstract class AetherNodeBlockMixin {
         if (world.isClient) return;
         AttributeList<AetherNode> list = AetherAttributes.INSTANCE.getAETHER_NODE().getAll(world, pos);
         if (list.getCount() > 0) {
-            System.out.println("Adding block at " + pos + " to network...");
-            // TODO
+
+
         }
     }
 }

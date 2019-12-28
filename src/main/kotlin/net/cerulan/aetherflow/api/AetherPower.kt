@@ -1,8 +1,3 @@
 package net.cerulan.aetherflow.api
 
-class AetherPower(r: Int, f: Int) {
-
-    val radiance: Int = r
-    val flow: Int = f
-
-}
+data class AetherPower(val radiance: Int, val flow: Int)
