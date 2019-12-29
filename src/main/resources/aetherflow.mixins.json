@@ -3,8 +3,6 @@
   "package": "net.cerulan.aetherflow.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "AetherNetworkBlockHooksMixin",
-    "AetherNetworkWorldHooksMixin"
   ],
   "client": [
   ],

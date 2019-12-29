@@ -12,7 +12,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.Hand
 import net.minecraft.util.Tickable
 
-class ShimmerInducer : BlockEntity(AetherflowBlocks.SHIMMER_INDUCER_ENTITY),
+class ShimmerInducer : BlockEntity(AetherflowBlocks.BlockEntities.SHIMMER_INDUCER_ENTITY),
     BlockEntityClientSerializable, Tickable {
 
     companion object {

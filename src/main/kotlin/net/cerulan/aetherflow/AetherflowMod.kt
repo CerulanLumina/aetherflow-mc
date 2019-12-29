@@ -1,8 +1,8 @@
 package net.cerulan.aetherflow
 
 import net.cerulan.aetherflow.block.entity.AetherFurnace
+import net.cerulan.aetherflow.block.entity.AetherPump
 import net.cerulan.aetherflow.block.entity.ShimmerInducer
-import net.cerulan.aetherflow.event.AetherNetworkHooks
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.fabricmc.api.ModInitializer
 import net.minecraft.block.Block
@@ -20,20 +20,21 @@ object AetherflowMod : ModInitializer {
         registerBlocks()
         registerBlockEntities()
         AetherflowRecipeTypes.registerRecipes()
-        AetherNetworkHooks.register()
     }
 
     private fun registerBlocks() {
         registerBlock("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER)
         registerBlock("aether_furnace", AetherflowBlocks.AETHER_FURNACE)
-        registerBlock("basic_aether_conduit", AetherflowBlocks.BASIC_AETHER_CONDUIT)
+        registerBlock("aether_pump", AetherflowBlocks.AETHER_PUMP)
     }
 
     private fun registerBlockEntities() {
-        AetherflowBlocks.SHIMMER_INDUCER_ENTITY =
+        AetherflowBlocks.BlockEntities.SHIMMER_INDUCER_ENTITY =
             registerBlockEntity("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER, Supplier { ShimmerInducer() })
-        AetherflowBlocks.AETHER_FURNACE_ENTITY =
+        AetherflowBlocks.BlockEntities.AETHER_FURNACE_ENTITY =
             registerBlockEntity("aether_furnace", AetherflowBlocks.AETHER_FURNACE, Supplier { AetherFurnace() })
+        AetherflowBlocks.BlockEntities.AETHER_PUMP_ENTITY =
+            registerBlockEntity("aether_pump", AetherflowBlocks.AETHER_PUMP, Supplier { AetherPump() })
     }
 
     private fun registerItems() {
