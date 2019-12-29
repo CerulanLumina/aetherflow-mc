@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "aetherflow:block/shimmer_inducer",
-		"particle": "aetherflow:block/shimmer_inducer"
+		"0": "aetherflow:block/shimmer_inducer/shimmer_inducer",
+		"particle": "aetherflow:block/shimmer_inducer/shimmer_inducer"
 	},
 	"elements": [
 		{

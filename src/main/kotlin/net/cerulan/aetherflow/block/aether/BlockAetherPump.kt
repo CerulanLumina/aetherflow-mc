@@ -53,7 +53,7 @@ object BlockAetherPump :
         super.onBlockRemoved(state, world, pos, newState, moved)
     }
 
-    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = defaultState.with(Props.ATTACHED, ctx.playerLookDirection)
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = defaultState.with(Props.ATTACHED, ctx.side.opposite)
 
     override fun createBlockEntity(view: BlockView) = AetherPump()
 
