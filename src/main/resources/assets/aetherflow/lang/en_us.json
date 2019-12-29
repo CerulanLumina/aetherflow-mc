@@ -2,5 +2,7 @@
   "item.aetherflow.shimmering_ingot": "Shimmering Ingot",
   "itemGroup.aetherflow.aetherflow_group": "Aetherflow",
   "block.aetherflow.shimmer_inducer": "Shimmer Inducer",
-  "block.aetherflow.aether_furnace": "Aether Furnace"
+  "block.aetherflow.aether_furnace": "Aether Furnace",
+  "block.aetherflow.aether_pump": "Aether Pump",
+  "block.aetherflow.aether_wellspring": "Aether Wellspring"
 }

@@ -64,7 +64,7 @@ object BlockAetherFurnace :
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, to: AttributeList<*>) {
         val be = world.getBlockEntity(pos)
         if (be is AetherFurnace) {
-            to.offer(be.aetherNode)
+            to.offer(be.aetherSink)
         }
     }
 
