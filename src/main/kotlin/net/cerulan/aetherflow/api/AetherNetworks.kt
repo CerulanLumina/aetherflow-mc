@@ -135,7 +135,7 @@ object AetherNetworks {
     }
 
     fun fromNBT(world: World, tag: CompoundTag) {
-        val net = getWorldNetwork(world)
+        val net = AetherNetworksWorld(world)
         net.fromNBT(tag)
         worldNetworks[world.dimension.type.rawId] = net
     }

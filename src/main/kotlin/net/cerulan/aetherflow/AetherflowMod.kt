@@ -26,6 +26,7 @@ object AetherflowMod : ModInitializer {
     private fun registerBlocks() {
         registerBlock("shimmer_inducer", AetherflowBlocks.SHIMMER_INDUCER)
         registerBlock("aether_furnace", AetherflowBlocks.AETHER_FURNACE)
+        registerBlock("basic_aether_conduit", AetherflowBlocks.BASIC_AETHER_CONDUIT)
     }
 
     private fun registerBlockEntities() {
