@@ -238,6 +238,45 @@ object AetherNetworkTest {
 
     }
 
+    @Test
+    fun networkMergeConduitAdd() {
+        world.blockmap[BlockPos(3,0,0)] = Blocks.AIR.defaultState
+        AetherNetworks.addConduitToNetwork(world, BlockPos(1, 0, 0))
+        AetherNetworks.addConduitToNetwork(world, BlockPos(2, 0, 0))
+        AetherNetworks.addConduitToNetwork(world, BlockPos(4, 0, 0))
+        AetherNetworks.addNodeToNetwork(world, BlockPos(0, 0, 0))
+        AetherNetworks.addNodeToNetwork(world, BlockPos(5, 0, 0))
+
+        assertEquals(2, AetherNetworks.networkCountAllWorlds, "Not two networks")
+
+        val srcNet = AetherNetworks.getNetworkForConduit(BlockPos(1, 0, 0), world)
+        val sinkNet = AetherNetworks.getNetworkForConduit(BlockPos(4, 0, 0), world)
+
+        assertNotNull(srcNet, "Source net not found")
+        assertNotNull(sinkNet, "Source net not found")
+
+        assertNotEquals(sinkNet, srcNet, "Source net and sink net should not be the same!")
+
+        world.blockmap[BlockPos(3, 0, 0)] = SimConduit.defaultState
+        AetherNetworks.addConduitToNetwork(world, BlockPos(3, 0, 0))
+
+        assertEquals(1, AetherNetworks.networkCountAllWorlds, "Network didn't merge (network count != 1)")
+
+        val allNet = AetherNetworks.getNetworkForConduit(BlockPos(4, 0, 0), world)
+
+        assertNotNull(allNet, "Network not accessible")
+        assertNotNull(allNet!!.source.node)
+        assertNotNull(allNet.sink.node)
+
+        source.radiance = 3
+        source.flow = 2
+
+        AetherNetworks.tick(world)
+
+        assertEquals(2, sink.flow, "Flow did not copy")
+        assertEquals(2, sink.radiance, "Radiance did not copy")
+    }
+
     private class DummyLevelProperties : LevelProperties()
     private class DummyChunkManager : ChunkManager() {
         override fun getLightingProvider(): LightingProvider {

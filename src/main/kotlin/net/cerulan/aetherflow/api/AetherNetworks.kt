@@ -23,16 +23,26 @@ object AetherNetworks {
                 ?: throw IllegalArgumentException("Block at $pos is not a conduit")
             if (networks.containsKey(pos)) throw IllegalArgumentException("Block at $pos was already present in network")
             val sides = AetherflowUtil.getSurroundingPos(pos)
-            var found = false
+            val foundNetworks: HashSet<AetherNetwork> = HashSet()
             for (side in sides) {
                 if (networks.containsKey(side)) {
-                    networks[pos] = networks[side]!!
-                    found = true
-                    break
+                    foundNetworks.add(networks[side]!!)
                 }
             }
-            if (!found) {
+            if (foundNetworks.isEmpty()) {
                 networks[pos] = AetherNetwork(world)
+            } else if (foundNetworks.size == 1) {
+                networks[pos] = foundNetworks.first()
+            } else {
+                val thisNet = foundNetworks.first()
+                networks[pos] = thisNet
+                for (adjNet in foundNetworks) {
+                    if (adjNet == thisNet) continue
+                    for (conduitPos in adjNet.getContainedBlockPos()) {
+                        networks[conduitPos] = thisNet
+                        adjNet.removeBlockFromNetwork(conduitPos)
+                    }
+                }
             }
             val thisNet = networks[pos]!!
             thisNet.addConduitToNetwork(pos)
