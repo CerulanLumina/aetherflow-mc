@@ -1,6 +1,7 @@
 package net.cerulan.aetherflow.client
 
 import net.cerulan.aetherflow.AetherflowBlocks
+import net.cerulan.aetherflow.client.blockentityrenderer.AetherPumpRenderer
 import net.cerulan.aetherflow.client.blockentityrenderer.ShimmerInducerRenderer
 import net.cerulan.aetherflow.client.gui.AetherFurnaceScreen
 import net.cerulan.aetherflow.container.AetherFurnaceController
@@ -16,6 +17,10 @@ object AetherflowModClient : ClientModInitializer {
             ShimmerInducerRenderer(
                 dispatcher
             )
+        }
+
+        BlockEntityRendererRegistry.INSTANCE.register(AetherflowBlocks.BlockEntities.AETHER_PUMP_ENTITY){
+                dispatcher -> AetherPumpRenderer(dispatcher)
         }
 
         ScreenProviderRegistry.INSTANCE.registerFactory(

@@ -6,20 +6,18 @@ import net.cerulan.aetherflow.AetherflowBlocks
 import net.cerulan.aetherflow.api.AetherAttributes
 import net.cerulan.aetherflow.api.attr.AetherNodeMode
 import net.cerulan.aetherflow.block.aether.BlockAetherPump
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.Tickable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
-open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_ENTITY), Tickable {
+open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_ENTITY), Tickable,
+    BlockEntityClientSerializable {
 
     protected val range = 16
-
-    override fun setWorld(_world: World, _blockPos: BlockPos) {
-        super.setWorld(_world, _blockPos)
-        direction = world!!.getBlockState(pos).get(BlockAetherPump.Props.ATTACHED)
-    }
 
     private fun updateCachedRange() {
         val builder = ImmutableList.builder<BlockPos>()
@@ -32,7 +30,6 @@ open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_E
     var direction: Direction? = null
         set(value) {
             field = value
-            world!!.setBlockState(pos, world!!.getBlockState(pos).with(BlockAetherPump.Props.ATTACHED, value))
             updateCachedRange()
         }
 
@@ -47,6 +44,9 @@ open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_E
     var target: BlockPos? = null
 
     override fun tick() {
+        if (direction == null) {
+            direction = cachedState.get(BlockAetherPump.Props.ATTACHED)
+        }
         if (world!!.isClient) return
         val node = AetherAttributes.AETHER_NODE.getFirstOrNull(world!!, pos.offset(direction), SearchOptions.inDirection(direction!!.opposite))
         if (active && node != null && target != null) {
@@ -57,6 +57,7 @@ open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_E
             } else {
                 target = null
                 active = false
+                sync()
             }
         } else if (node != null && target == null) {
             for (searchPos in cachedRanged) {
@@ -64,6 +65,7 @@ open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_E
                 if (searchNode != null && searchNode.mode == AetherNodeMode.SINK) {
                     target = searchPos
                     active = true
+                    sync()
                 }
             }
         } else {
@@ -82,7 +84,20 @@ open class AetherPump : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_PUMP_E
                 targetNode.flow = 0
             }
             target = null
+            sync()
         }
     }
+
+    override fun toClientTag(p0: CompoundTag): CompoundTag {
+        if (target != null)
+            p0.putInt("range", target!!.getManhattanDistance(pos))
+        return p0
+    }
+
+    override fun fromClientTag(p0: CompoundTag) {
+        rangeActual = p0.getInt("range")
+    }
+
+    var rangeActual = 0
 
 }
