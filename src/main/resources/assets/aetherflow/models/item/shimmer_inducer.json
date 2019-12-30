@@ -1,5 +1,5 @@
 {
-  "parent": "aetherflow:block/shimmer_inducer",
+  "parent": "aetherflow:block/shimmer_inducer/shimmer_inducer",
   "display": {
     "firstperson_righthand": {
       "translation": [0, 2, 0]

@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 
 object AetherflowModClient : ClientModInitializer {
     override fun onInitializeClient() {
-        BlockEntityRendererRegistry.INSTANCE.register(AetherflowBlocks.SHIMMER_INDUCER_ENTITY) { dispatcher ->
+        BlockEntityRendererRegistry.INSTANCE.register(AetherflowBlocks.BlockEntities.SHIMMER_INDUCER_ENTITY) { dispatcher ->
             ShimmerInducerRenderer(
                 dispatcher
             )
