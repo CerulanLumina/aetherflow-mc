@@ -3,11 +3,14 @@ package net.cerulan.aetherflow
 import net.cerulan.aetherflow.block.entity.AetherFurnace
 import net.cerulan.aetherflow.block.entity.AetherPump
 import net.cerulan.aetherflow.block.entity.ShimmerInducer
+import net.cerulan.aetherflow.container.AetherFurnaceController
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.container.BlockContext
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
@@ -20,6 +23,7 @@ object AetherflowMod : ModInitializer {
         registerBlocks()
         registerBlockEntities()
         AetherflowRecipeTypes.registerRecipes()
+        registerScreenControllers()
     }
 
     private fun registerBlocks() {
@@ -36,6 +40,21 @@ object AetherflowMod : ModInitializer {
             registerBlockEntity("aether_furnace", AetherflowBlocks.AETHER_FURNACE, Supplier { AetherFurnace() })
         AetherflowBlocks.BlockEntities.AETHER_PUMP_ENTITY =
             registerBlockEntity("aether_pump", AetherflowBlocks.AETHER_PUMP, Supplier { AetherPump() })
+    }
+
+    private fun registerScreenControllers() {
+        ContainerProviderRegistry.INSTANCE.registerFactory(
+            Identifier(
+                "aetherflow",
+                "aether_furnace"
+            )
+        ) { syncId, _, player, buf ->
+            AetherFurnaceController(
+                syncId,
+                player.inventory,
+                BlockContext.create(player.world, buf.readBlockPos())
+            )
+        }
     }
 
     private fun registerItems() {

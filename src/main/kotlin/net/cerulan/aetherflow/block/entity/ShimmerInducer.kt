@@ -20,6 +20,7 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.BlockEntities.SHIMMER_INDUCE
     }
 
     val inventory = ShimmerInducerItemInv(this)
+    val sidedInventory = InventoryWrapper.create(inventory)
     var outputting = false
         set(v) {
             field = v
@@ -90,7 +91,7 @@ class ShimmerInducer : BlockEntity(AetherflowBlocks.BlockEntities.SHIMMER_INDUCE
         if (world!!.isClient) return
         if (world!!.timeOfDay > 6000 && lastTime <= 6000) {
             println("lastTime: $lastTime, timeDay: ${world!!.timeOfDay}")
-            val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, InventoryWrapper.create(inventory), world)
+            val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, sidedInventory, world)
             if (res.isPresent) {
                 val recipe = res.get()
                 outputting = true

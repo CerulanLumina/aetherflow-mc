@@ -21,6 +21,10 @@ repositories {
         name = "BuildCraft"
         url = "https://mod-buildcraft.com/maven"
     }
+    maven {
+        name = "CottonMC"
+        url = "http://server.bbkr.space:8081/artifactory/libs-release"
+    }
 }
 
 dependencies {
@@ -37,6 +41,9 @@ dependencies {
     modCompile "io.github.prospector:modmenu:${project.mod_menu_version}"
 
     modCompile "alexiil.mc.lib:libblockattributes-all:${project.libblockattributes_version}"
+
+    modImplementation "io.github.cottonmc:LibGui:${project.libgui_version}"
+    include "io.github.cottonmc:LibGui:${project.libgui_version}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'

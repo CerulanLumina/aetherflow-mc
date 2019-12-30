@@ -8,13 +8,16 @@ import net.minecraft.util.registry.Registry
 
 object AetherflowRecipeTypes {
     lateinit var SHIMMER_INDUCER: RecipeType<ShimmerInducerRecipe>
+    lateinit var AETHER_FURNACE: RecipeType<AetherFurnaceRecipe>
 
     fun registerRecipes() {
-        val reg =
-            registerRecipeType("shimmer_inducer", ShimmerInducerRecipe::class.java, ShimmerInducerRecipe.Serializer)
-        SHIMMER_INDUCER = reg.recipeType
-        AetherflowRecipeSerializers.SHIMMER_INDUCER_SERIALIZER = reg.recipeSerializer
-
+            val shimmerInducer =
+                registerRecipeType("shimmer_inducer", ShimmerInducerRecipe::class.java, ShimmerInducerRecipe.Serializer)
+            SHIMMER_INDUCER = shimmerInducer.recipeType
+            AetherflowRecipeSerializers.SHIMMER_INDUCER_SERIALIZER = shimmerInducer.recipeSerializer
+        val aetherFurnace = registerRecipeType("aether_furnace", AetherFurnaceRecipe::class.java, AetherFurnaceRecipe.Serializer)
+        AETHER_FURNACE = aetherFurnace.recipeType
+        AetherflowRecipeSerializers.AETHER_FURNACE_SERIALIZER = aetherFurnace.recipeSerializer
     }
 
     private fun <T : Recipe<*>> registerRecipeType(

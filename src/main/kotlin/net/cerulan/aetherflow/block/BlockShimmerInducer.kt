@@ -62,7 +62,7 @@ object BlockShimmerInducer :
     override fun getInventory(state: BlockState?, world: IWorld?, pos: BlockPos?): SidedInventory? {
         val be = world!!.getBlockEntity(pos)
         if (be is ShimmerInducer) {
-            return InventoryWrapper.create(be.inventory)
+            return be.sidedInventory
         }
         return null
     }

@@ -1,0 +1,8 @@
+{
+  "type": "aetherflow:aether_furnace",
+  "group": "",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": "aetherflow:shimmering_ingot"
+}
