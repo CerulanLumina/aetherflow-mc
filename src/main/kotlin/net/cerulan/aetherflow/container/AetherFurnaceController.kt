@@ -18,6 +18,13 @@ class AetherFurnaceController(syncId: Int, playerInv: PlayerInventory, context: 
         inputSlot = WItemSlot.of(blockInventory, 0)
         outputSlot = WItemSlot.of(blockInventory, 1)
 
+        val progBar = WBar(null, null, 0, 1, WBar.Direction.RIGHT)
+
+        rootPanel.add(progBar, 3, 1)
+        progBar.setLocation(20, 10)
+        progBar.setSize(20, 10)
+
+
         rootPanel.add(inputSlot, 2, 1)
         rootPanel.add(outputSlot, 6, 1)
 

@@ -2,7 +2,7 @@ package net.cerulan.aetherflow.block.entity
 
 import alexiil.mc.lib.attributes.Simulation
 import alexiil.mc.lib.attributes.item.impl.DirectFixedItemInv
-import kotlinx.coroutines.flow.flow
+import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
 import net.cerulan.aetherflow.AetherflowBlocks
 import net.cerulan.aetherflow.api.attr.AetherNode
 import net.cerulan.aetherflow.api.attr.AetherNodeMode
@@ -13,6 +13,7 @@ import net.cerulan.aetherflow.recipe.AetherFurnaceRecipe
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.container.PropertyDelegate
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.recipe.RecipeManager
@@ -25,6 +26,7 @@ import java.util.*
 
 open class AetherFurnace : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_FURNACE_ENTITY),
     BlockEntityClientSerializable,
+    PropertyDelegateHolder,
     Tickable, MachineRecipeProvider<AetherFurnaceRecipe> {
 
     companion object {
@@ -61,7 +63,6 @@ open class AetherFurnace : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_FUR
     override fun tick() {
         if (world!!.isClient) return
         if (aetherSink.radiance < minimumRadiance) {
-            flowTicks = 0
             return
         }
 
@@ -80,12 +81,12 @@ open class AetherFurnace : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_FUR
                     }
                     if (hasAetherRecipe() && flowTicks == getAetherRecipe().flowticks) {
                         flowTicks = 0
-                        input.extract(1)
                         output.insert(0, getAetherRecipe().output)
+                        input.extract(1)
                     } else if (hasFurnaceRecipe() && flowTicks == furnaceFlowTicks) {
                         flowTicks = 0
-                        input.extract(1)
                         output.insert(0, getSmeltingRecipe().output)
+                        input.extract(1)
                     }
                 }
                 Mode.ONLY_FURNACE -> {
@@ -99,8 +100,9 @@ open class AetherFurnace : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_FUR
                     }
                     if (hasFurnaceRecipe() && flowTicks == furnaceFlowTicks) {
                         flowTicks = 0
-                        input.extract(1)
                         output.insert(0, getSmeltingRecipe().output)
+                        input.extract(1)
+
                     }
                 }
                 Mode.ONLY_AETHER -> {
@@ -113,8 +115,8 @@ open class AetherFurnace : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_FUR
                     }
                     if (hasAetherRecipe() && flowTicks == getAetherRecipe().flowticks) {
                         flowTicks = 0
-                        input.extract(1)
                         output.insert(0, getAetherRecipe().output)
+                        input.extract(1)
                     }
                 }
             }
@@ -182,5 +184,27 @@ open class AetherFurnace : BlockEntity(AetherflowBlocks.BlockEntities.AETHER_FUR
         input.fromTag(tag.getCompound("inputInv"))
         output.fromTag(tag.getCompound("outputInv"))
     }
+
+    private val propertyDelegate = object : PropertyDelegate {
+        override fun size(): Int = 2
+
+        override fun get(key: Int): Int {
+            return when (key) {
+                0 -> flowTicks
+                1 -> maxFlowTicks
+                else -> throw IllegalStateException("Property out of bounds")
+            }
+        }
+
+        override fun set(key: Int, value: Int) {
+            when (key) {
+                0 -> flowTicks = value
+                1 -> maxFlowTicks = value
+            }
+        }
+
+    }
+
+    override fun getPropertyDelegate(): PropertyDelegate = propertyDelegate
 
 }
