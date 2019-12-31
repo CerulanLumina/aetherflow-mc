@@ -1,9 +1,7 @@
 package net.cerulan.aetherflow.container
 
 import io.github.cottonmc.cotton.gui.CottonCraftingController
-import io.github.cottonmc.cotton.gui.widget.WGridPanel
-import io.github.cottonmc.cotton.gui.widget.WItemSlot
-import io.github.cottonmc.cotton.gui.widget.WLabel
+import io.github.cottonmc.cotton.gui.widget.*
 import net.cerulan.aetherflow.recipe.AetherflowRecipeTypes
 import net.minecraft.container.BlockContext
 import net.minecraft.container.Slot

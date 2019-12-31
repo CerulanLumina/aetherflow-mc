@@ -1,9 +1,6 @@
 package net.cerulan.aetherflow.recipe
 
-import alexiil.mc.lib.attributes.Simulation
-import alexiil.mc.lib.attributes.item.impl.FullFixedItemInv
 import com.google.gson.JsonObject
-import net.cerulan.aetherflow.inventory.InventoryWrapper
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
@@ -20,9 +17,9 @@ class AetherFurnaceRecipe(
     private val identifier: Identifier,
     private val grp: String,
     private val input: Ingredient,
-    private val out: ItemStack
+    private val out: ItemStack,
+    val flowticks: Int
 ) : Recipe<Inventory> {
-
 
     override fun craft(inv: Inventory) = output.copy()
 
@@ -48,6 +45,7 @@ class AetherFurnaceRecipe(
         override fun write(buf: PacketByteBuf, recipe: AetherFurnaceRecipe) {
             buf.writeString(recipe.group)
             buf.writeItemStack(recipe.output)
+            buf.writeInt(recipe.flowticks)
             recipe.input.write(buf)
         }
 
@@ -55,17 +53,19 @@ class AetherFurnaceRecipe(
             val inp = Ingredient.fromJson(json.get("ingredient"))
             val outName = json.get("result").asString
             val grp = json.get("group").asString
+            val flowticks = json.get("flowticks").asInt
             val itemStack = ItemStack(
                 Registry.ITEM.getOrEmpty(Identifier(outName)).orElseThrow { IllegalStateException("Item: $outName does not exist") } as ItemConvertible
             )
-            return AetherFurnaceRecipe(id, grp, inp, itemStack)
+            return AetherFurnaceRecipe(id, grp, inp, itemStack, flowticks)
         }
 
         override fun read(id: Identifier, buf: PacketByteBuf): AetherFurnaceRecipe {
             val grp = buf.readString()
             val out = buf.readItemStack()
             val inp = Ingredient.fromPacket(buf)
-            return AetherFurnaceRecipe(id, grp, inp, out)
+            val flowticks = buf.readInt()
+            return AetherFurnaceRecipe(id, grp, inp, out, flowticks)
         }
 
     }
