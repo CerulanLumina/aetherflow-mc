@@ -1,35 +1,36 @@
 {
   "schemaVersion": 1,
-  "id": "aetherflow",
+  "id": "luminality",
   "version": "${version}",
-  "name": "Aetherflow",
+  "name": "Luminality",
   "description": "Magic-themed tech mod for automation addicts",
   "authors": [
-    "Cerulan Lumina"
+    "Cerulan Lumina",
+    "66GearHead66"
   ],
   "contact": {
     "homepage": "",
     "sources": ""
   },
   "license": "MIT",
-  "icon": "assets/aetherflow/icon.png",
+  "icon": "assets/luminality/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "net.cerulan.aetherflow.AetherflowMod"
+        "value": "net.cerulan.luminality.LuminalityMod"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "net.cerulan.aetherflow.client.AetherflowModClient"
+        "value": "net.cerulan.luminality.client.LuminalityModClient"
       }
     ]
   },
   "mixins": [
-    "aetherflow.mixins.json"
+    "luminality.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.1",

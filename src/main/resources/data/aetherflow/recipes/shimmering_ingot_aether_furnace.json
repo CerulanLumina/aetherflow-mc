@@ -1,9 +1,0 @@
-{
-  "type": "aetherflow:aether_furnace",
-  "group": "",
-  "ingredient": {
-    "item": "minecraft:iron_ingot"
-  },
-  "flowticks": 800,
-  "result": "aetherflow:shimmering_ingot"
-}

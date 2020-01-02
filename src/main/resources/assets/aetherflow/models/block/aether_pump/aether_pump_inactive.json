@@ -1,6 +1,0 @@
-{
-	"parent": "aetherflow:block/aether_pump/aether_pump",
-	"textures": {
-		"0": "aetherflow:block/aether_pump/aether_pump_status_off"
-	}
-}

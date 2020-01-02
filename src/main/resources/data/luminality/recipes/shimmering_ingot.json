@@ -1,0 +1,8 @@
+{
+  "type": "luminality:shimmer_inducer",
+  "group": "",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": "luminality:shimmering_ingot"
+}

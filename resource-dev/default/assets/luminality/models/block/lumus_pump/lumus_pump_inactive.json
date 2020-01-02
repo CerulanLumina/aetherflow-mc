@@ -1,0 +1,6 @@
+{
+  "parent": "luminality:block/lumus_pump/lumus_pump",
+  "textures": {
+    "0": "luminality:block/lumus_pump/lumus_pump_status_off"
+  }
+}

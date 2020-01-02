@@ -1,0 +1,9 @@
+{
+  "type": "luminality:luminal_furnace",
+  "group": "",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "flowticks": 800,
+  "result": "luminality:shimmering_ingot"
+}

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "luminality:block/luminal_furnace/luminal_furnace" },
+    "facing=east":  { "model": "luminality:block/luminal_furnace/luminal_furnace", "y":  90},
+    "facing=south": { "model": "luminality:block/luminal_furnace/luminal_furnace", "y": 180 },
+    "facing=west":  { "model": "luminality:block/luminal_furnace/luminal_furnace", "y": 270 }
+  }
+}
