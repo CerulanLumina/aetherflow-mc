@@ -1,9 +1,9 @@
 logs
 .gradle
 .idea
-aetherflow.iml
-aetherflow.iws
-aetherflow.ipr
+luminality.iml
+luminality.iws
+luminality.ipr
 build
 gradle
 run
