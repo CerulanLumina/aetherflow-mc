@@ -37,7 +37,8 @@ open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntit
     var active = false
         protected set(value) {
             field = value
-            world!!.setBlockState(pos, world!!.getBlockState(pos).with(BlockLumusPump.Props.VALID, field))
+            if (world!!.getBlockState(pos).block == BlockLumusPump)
+                world!!.setBlockState(pos, world!!.getBlockState(pos).with(BlockLumusPump.Props.VALID, field))
         }
 
     var target: BlockPos? = null
@@ -54,17 +55,18 @@ open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntit
                 targetNode.flow = node.flow
                 targetNode.radiance = node.radiance
             } else {
-                target = null
-                active = false
-                sync()
+                unsetTarget()
             }
         } else if (node != null && target == null) {
             for (searchPos in cachedRanged) {
                 val searchNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, searchPos, SearchOptions.inDirection(direction!!.opposite))
                 if (searchNode != null && searchNode.mode == LumusNodeMode.SINK) {
-                    target = searchPos
                     active = true
+                    target = searchPos
+                    rangeActual = searchPos.getManhattanDistance(pos)
+                    offset = searchNode.attachRange
                     sync()
+                    break
                 }
             }
         } else {
@@ -83,20 +85,25 @@ open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntit
                 targetNode.flow = 0
             }
             target = null
+            active = false
+            rangeActual = 0
+            offset = 0f
             sync()
         }
     }
 
     override fun toClientTag(p0: CompoundTag): CompoundTag {
-        if (target != null)
-            p0.putInt("range", target!!.getManhattanDistance(pos))
+        p0.putInt("range", rangeActual)
+        p0.putFloat("offset", offset)
         return p0
     }
 
     override fun fromClientTag(p0: CompoundTag) {
         rangeActual = p0.getInt("range")
+        offset = p0.getFloat("offset")
     }
 
     var rangeActual = 0
+    var offset: Float = 0f
 
 }

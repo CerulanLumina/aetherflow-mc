@@ -49,6 +49,7 @@ object BlockLumusPump :
         newState: BlockState,
         moved: Boolean
     ) {
+        if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusPump) {
             be.unsetTarget()

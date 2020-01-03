@@ -195,7 +195,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
     }
 
     private val propertyDelegate = object : PropertyDelegate {
-        override fun size(): Int = 2
+        override fun size(): Int = 3
 
         override fun get(key: Int): Int {
             return when (key) {
