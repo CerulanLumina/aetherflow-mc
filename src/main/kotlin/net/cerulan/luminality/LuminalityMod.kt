@@ -2,6 +2,7 @@ package net.cerulan.luminality
 
 import net.cerulan.luminality.block.entity.LuminalFurnace
 import net.cerulan.luminality.block.entity.LumusPump
+import net.cerulan.luminality.block.entity.LumusRedirector
 import net.cerulan.luminality.block.entity.ShimmerInducer
 import net.cerulan.luminality.container.LuminalFurnaceController
 import net.cerulan.luminality.networking.LuminalityPackets
@@ -33,6 +34,7 @@ object LuminalityMod : ModInitializer {
         registerBlock("luminal_furnace", LuminalityBlocks.luminalFurnace)
         registerBlock("lumus_pump", LuminalityBlocks.lumusPump)
         registerBlock("lumus_wellspring", LuminalityBlocks.lumusWellspring)
+        registerBlock("lumus_redirector", LuminalityBlocks.lumusRedirector)
     }
 
     private fun registerBlockEntities() {
@@ -42,6 +44,8 @@ object LuminalityMod : ModInitializer {
             registerBlockEntity("luminal_furnace", LuminalityBlocks.luminalFurnace, Supplier { LuminalFurnace() })
         LuminalityBlocks.BlockEntities.lumusPumpEntity =
             registerBlockEntity("lumus_pump", LuminalityBlocks.lumusPump, Supplier { LumusPump() })
+        LuminalityBlocks.BlockEntities.lumusRedirectorEntity =
+            registerBlockEntity("lumus_redirector", LuminalityBlocks.lumusRedirector, Supplier { LumusRedirector() })
     }
 
     private fun registerScreenControllers() {
