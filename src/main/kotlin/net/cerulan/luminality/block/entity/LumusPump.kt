@@ -4,53 +4,66 @@ import alexiil.mc.lib.attributes.SearchOptions
 import com.google.common.collect.ImmutableList
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.LuminalityAttributes
+import net.cerulan.luminality.api.attr.LumusNode
 import net.cerulan.luminality.api.attr.LumusNodeMode
 import net.cerulan.luminality.block.lumus.BlockLumusPump
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.Tickable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 
-open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntity), Tickable,
+open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.BlockEntities.lumusPumpEntity) : BlockEntity(blockEntityType), Tickable,
     BlockEntityClientSerializable {
 
-    protected val range = 16
+    protected open val range = 16
 
-    private fun updateCachedRange() {
+    protected open fun updateCachedRange() {
         val builder = ImmutableList.builder<BlockPos>()
         for (i in 0..range) {
-            builder.add(pos.offset(direction!!.opposite, i))
+            builder.add(pos.offset(outputDirection, i))
         }
         cachedRanged = builder.build()
     }
 
     var direction: Direction? = null
-        set(value) {
+        protected set(value) {
             field = value
-            updateCachedRange()
+            if (value != null)
+                updateCachedRange()
         }
 
     lateinit var cachedRanged: ImmutableList<BlockPos>
+        protected set
 
-    var active = false
+    open var active = false
         protected set(value) {
             field = value
-            if (world!!.getBlockState(pos).block == BlockLumusPump)
-                world!!.setBlockState(pos, world!!.getBlockState(pos).with(BlockLumusPump.Props.VALID, field))
+            if (LuminalityAttributes.lumusPump.getFirstOrNull(world!!, pos) != null)
+                world!!.setBlockState(pos, world!!.getBlockState(pos).with(BlockLumusPump.Props.valid, field))
         }
 
-    var target: BlockPos? = null
+    open var target: BlockPos? = null
+        protected set
+
+    protected open fun getInputNode(world: World, pos: BlockPos, direction: Direction): LumusNode? {
+        return LuminalityAttributes.lumusNode.getFirstOrNull(world, pos.offset(direction), SearchOptions.inDirection(direction.opposite))
+    }
+
+    open val outputDirection: Direction
+        get() = direction!!.opposite
 
     override fun tick() {
         if (direction == null) {
-            direction = cachedState.get(BlockLumusPump.Props.ATTACHED)
+            direction = cachedState.get(BlockLumusPump.Props.input)
         }
         if (world!!.isClient) return
-        val node = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, pos.offset(direction), SearchOptions.inDirection(direction!!.opposite))
+        val node = getInputNode(world!!, pos, direction!!)
         if (active && node != null && target != null) {
-            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(direction!!.opposite))
+            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection.opposite))
             if (targetNode != null && targetNode.mode == LumusNodeMode.SINK) {
                 targetNode.flow = node.flow
                 targetNode.radiance = node.radiance
@@ -59,7 +72,7 @@ open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntit
             }
         } else if (node != null && target == null) {
             for (searchPos in cachedRanged) {
-                val searchNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, searchPos, SearchOptions.inDirection(direction!!.opposite))
+                val searchNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, searchPos, SearchOptions.inDirection(outputDirection.opposite))
                 if (searchNode != null && searchNode.mode == LumusNodeMode.SINK) {
                     active = true
                     target = searchPos
@@ -77,9 +90,9 @@ open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntit
         }
     }
 
-    fun unsetTarget() {
+    open fun unsetTarget() {
         if (target != null)  {
-            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(direction!!.opposite))
+            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection.opposite))
             if (targetNode != null) {
                 targetNode.radiance = 0
                 targetNode.flow = 0
@@ -103,7 +116,7 @@ open class LumusPump : BlockEntity(LuminalityBlocks.BlockEntities.lumusPumpEntit
         offset = p0.getFloat("offset")
     }
 
-    var rangeActual = 0
-    var offset: Float = 0f
+    open var rangeActual = 0
+    open var offset: Float = 0f
 
 }

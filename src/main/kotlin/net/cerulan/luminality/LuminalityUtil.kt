@@ -9,6 +9,12 @@ import kotlin.math.abs
 
 object LuminalityUtil {
 
+    fun getDirectionRightAngle(index: Int, direction: Direction): Direction {
+        val i = index % 4
+        val axis = Direction.Axis.values().filter { axis -> axis != direction.axis }[i % 2]
+        return Direction.from(axis, Direction.AxisDirection.values()[i / 2])
+    }
+
     fun blockPosDFS(start: BlockPos, predicate: (BlockPos) -> Boolean): ImmutableSet<BlockPos> {
         val visited: HashSet<BlockPos> = HashSet()
         val stack = Stack<BlockPos>()

@@ -1,48 +1,48 @@
 {
   "variants": {
-    "attached=north,valid=true": {
+    "input=north,valid=true": {
       "model": "luminality:block/lumus_pump/lumus_pump"
     },
-    "attached=north,valid=false": {
+    "input=north,valid=false": {
       "model": "luminality:block/lumus_pump/lumus_pump_inactive"
     },
-    "attached=west,valid=true": {
+    "input=west,valid=true": {
       "model": "luminality:block/lumus_pump/lumus_pump",
       "y": 270
     },
-    "attached=west,valid=false": {
+    "input=west,valid=false": {
       "model": "luminality:block/lumus_pump/lumus_pump_inactive",
       "y": 270
     },
-    "attached=south,valid=true": {
+    "input=south,valid=true": {
       "model": "luminality:block/lumus_pump/lumus_pump",
       "y": 180
     },
-    "attached=south,valid=false": {
+    "input=south,valid=false": {
       "model": "luminality:block/lumus_pump/lumus_pump_inactive",
       "y": 180
     },
-    "attached=east,valid=true": {
+    "input=east,valid=true": {
       "model": "luminality:block/lumus_pump/lumus_pump",
       "y": 90
     },
-    "attached=east,valid=false": {
+    "input=east,valid=false": {
       "model": "luminality:block/lumus_pump/lumus_pump_inactive",
       "y": 90
     },
-    "attached=up,valid=true": {
+    "input=up,valid=true": {
       "model": "luminality:block/lumus_pump/lumus_pump",
       "x": 270
     },
-    "attached=up,valid=false": {
+    "input=up,valid=false": {
       "model": "luminality:block/lumus_pump/lumus_pump_inactive",
       "x": 270
     },
-    "attached=down,valid=true": {
+    "input=down,valid=true": {
       "model": "luminality:block/lumus_pump/lumus_pump",
       "x": 90
     },
-    "attached=down,valid=false": {
+    "input=down,valid=false": {
       "model": "luminality:block/lumus_pump/lumus_pump_inactive",
       "x": 90
     }
