@@ -4,6 +4,7 @@ import net.cerulan.luminality.block.entity.LuminalFurnace
 import net.cerulan.luminality.block.entity.LumusPump
 import net.cerulan.luminality.block.entity.ShimmerInducer
 import net.cerulan.luminality.container.LuminalFurnaceController
+import net.cerulan.luminality.networking.LuminalityPackets
 import net.cerulan.luminality.recipe.LuminalityRecipeTypes
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry
@@ -24,6 +25,7 @@ object LuminalityMod : ModInitializer {
         registerBlockEntities()
         LuminalityRecipeTypes.registerRecipes()
         registerScreenControllers()
+        LuminalityPackets.registerC2S()
     }
 
     private fun registerBlocks() {

@@ -32,7 +32,7 @@ class ShimmerInducerRecipe(
     override fun fits(width: Int, height: Int) = true
 
     override fun getSerializer(): RecipeSerializer<*> {
-        return LuminalityRecipeSerializers.SHIMMER_INDUCER_SERIALIZER
+        return LuminalityRecipeSerializers.shimmerInducerSerializer
     }
 
     override fun getOutput() = out.copy()

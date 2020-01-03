@@ -90,7 +90,6 @@ class ShimmerInducer : BlockEntity(LuminalityBlocks.BlockEntities.shimmerInducer
     override fun tick() {
         if (world!!.isClient) return
         if (world!!.timeOfDay > 6000 && lastTime <= 6000) {
-            println("lastTime: $lastTime, timeDay: ${world!!.timeOfDay}")
             val res = world!!.recipeManager.getFirstMatch(RECIPE_TYPE, sidedInventory, world)
             if (res.isPresent) {
                 val recipe = res.get()

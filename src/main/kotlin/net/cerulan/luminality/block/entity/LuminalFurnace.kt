@@ -2,6 +2,7 @@ package net.cerulan.luminality.block.entity
 
 import alexiil.mc.lib.attributes.Simulation
 import alexiil.mc.lib.attributes.item.impl.DirectFixedItemInv
+import com.google.common.collect.ImmutableList
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.attr.LumusNode
@@ -9,16 +10,20 @@ import net.cerulan.luminality.api.attr.LumusNodeMode
 import net.cerulan.luminality.inventory.AttributeSidedInventory
 import net.cerulan.luminality.inventory.MachineInputItemInv
 import net.cerulan.luminality.inventory.MachineRecipeProvider
+import net.cerulan.luminality.networking.PacketConfigurable
 import net.cerulan.luminality.recipe.LuminalFurnaceRecipe
 import net.cerulan.luminality.recipe.LuminalityRecipeTypes
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.container.PropertyDelegate
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeManager
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.SmeltingRecipe
+import net.minecraft.util.PacketByteBuf
 import net.minecraft.util.Tickable
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
@@ -27,17 +32,18 @@ import java.util.*
 open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFurnaceEntity),
     BlockEntityClientSerializable,
     PropertyDelegateHolder,
-    Tickable, MachineRecipeProvider<LuminalFurnaceRecipe> {
+    PacketConfigurable,
+    Tickable, MachineRecipeProvider {
 
     companion object {
         val minimumRadiance = 4
         val furnaceFlowTicks = 800
     }
 
-    enum class Mode {
-        ALL,
-        ONLY_FURNACE,
-        ONLY_LUMINAL
+    enum class Mode(val recipeTypes: ImmutableList<RecipeType<out Recipe<Inventory>>>) {
+        ALL(ImmutableList.builder<RecipeType<out Recipe<Inventory>>>().add(LuminalityRecipeTypes.luminalFurnace, RecipeType.SMELTING).build()),
+        ONLY_FURNACE(ImmutableList.builder<RecipeType<out Recipe<Inventory>>>().add(RecipeType.SMELTING).build()),
+        ONLY_LUMINAL(ImmutableList.builder<RecipeType<out Recipe<Inventory>>>().add(LuminalityRecipeTypes.luminalFurnace).build())
     }
 
     val lumusSink = LumusNode(LumusNodeMode.SINK)
@@ -153,8 +159,8 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
 
     override val recipeManager: RecipeManager?
         get() = world?.recipeManager
-    override val recipeType: RecipeType<LuminalFurnaceRecipe>
-        get() = LuminalityRecipeTypes.luminalFurnace
+    override val recipeTypes: ImmutableList<RecipeType<out Recipe<Inventory>>>
+        get() = mode.recipeTypes
     override val recipeWorld: World?
         get() = world
 
@@ -195,6 +201,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
             return when (key) {
                 0 -> flowTicks
                 1 -> maxFlowTicks
+                2 -> mode.ordinal
                 else -> throw IllegalStateException("Property out of bounds")
             }
         }
@@ -203,11 +210,27 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
             when (key) {
                 0 -> flowTicks = value
                 1 -> maxFlowTicks = value
+                2 -> mode = Mode.values()[value]
             }
         }
 
     }
 
     override fun getPropertyDelegate(): PropertyDelegate = propertyDelegate
+
+    override fun configureFromPacket(byteArray: ByteArray) {
+        val b = byteArray[0]
+        if (b in 0..2)
+            propertyDelegate.set(2, b.toInt())
+        else throw IllegalStateException("Bad mode ID")
+        sync()
+    }
+
+    override fun expectedBytesForType(type: Byte): Int {
+        return when (type) {
+            0.toByte() -> 1
+            else -> 0
+        }
+    }
 
 }

@@ -45,8 +45,8 @@ class LuminalFurnaceRecipe(
         override fun write(buf: PacketByteBuf, recipe: LuminalFurnaceRecipe) {
             buf.writeString(recipe.group)
             buf.writeItemStack(recipe.output)
-            buf.writeInt(recipe.flowticks)
             recipe.input.write(buf)
+            buf.writeInt(recipe.flowticks)
         }
 
         override fun read(id: Identifier, json: JsonObject): LuminalFurnaceRecipe {

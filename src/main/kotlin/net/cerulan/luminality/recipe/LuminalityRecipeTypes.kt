@@ -11,13 +11,17 @@ object LuminalityRecipeTypes {
     lateinit var luminalFurnace: RecipeType<LuminalFurnaceRecipe>
 
     fun registerRecipes() {
-            val shimmerInducer =
-                registerRecipeType("shimmer_inducer", ShimmerInducerRecipe::class.java, ShimmerInducerRecipe.Serializer)
-            this.shimmerInducer = shimmerInducer.recipeType
-            LuminalityRecipeSerializers.SHIMMER_INDUCER_SERIALIZER = shimmerInducer.recipeSerializer
-        val luminalFurnace = registerRecipeType("luminal_furnace", LuminalFurnaceRecipe::class.java, LuminalFurnaceRecipe.Serializer)
+
+        val luminalFurnace =
+            registerRecipeType("asd", LuminalFurnaceRecipe::class.java, LuminalFurnaceRecipe.Serializer)
         this.luminalFurnace = luminalFurnace.recipeType
         LuminalityRecipeSerializers.luminalFurnaceSerializer = luminalFurnace.recipeSerializer
+
+        val shimmerInducer =
+            registerRecipeType("shimmer_inducer", ShimmerInducerRecipe::class.java, ShimmerInducerRecipe.Serializer)
+        this.shimmerInducer = shimmerInducer.recipeType
+        LuminalityRecipeSerializers.shimmerInducerSerializer = shimmerInducer.recipeSerializer
+
     }
 
     private fun <T : Recipe<*>> registerRecipeType(
@@ -32,7 +36,8 @@ object LuminalityRecipeTypes {
         )
         val retType = Registry.register(
             Registry.RECIPE_TYPE,
-            Identifier("luminality", name), createRecipeType(name, type)
+            Identifier("luminality", name),
+            createRecipeType(name, type)
         )
         return TypeSerializer(retType, retSerializer)
     }
