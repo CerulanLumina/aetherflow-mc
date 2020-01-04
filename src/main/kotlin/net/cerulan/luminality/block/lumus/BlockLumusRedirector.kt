@@ -2,6 +2,7 @@ package net.cerulan.luminality.block.lumus
 
 import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
+import net.cerulan.luminality.LuminalityUtil
 import net.cerulan.luminality.api.attr.LumusPumpMarker
 import net.cerulan.luminality.block.entity.LumusRedirector
 import net.fabricmc.fabric.api.block.FabricBlockSettings
@@ -16,6 +17,7 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -65,7 +67,26 @@ object BlockLumusRedirector : Block(
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
-        return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite)
+        val hx = MathHelper.fractionalPart(ctx.hitPos.x)
+        val hy = MathHelper.fractionalPart(ctx.hitPos.y)
+        val hz = MathHelper.fractionalPart(ctx.hitPos.z)
+        if (ctx.world.isClient) {
+            println("x: $hx")
+            println("x: $hy")
+            println("x: $hz")
+        }
+        try {
+            return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite).with(
+                Props.output,
+                LuminalityUtil.getDirectionRightAngleIndex(
+                    ctx.side.opposite,
+                    LuminalityUtil.getDirectionFromHitPos(ctx.side, hx, hy, hz)
+                )
+            )
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite)
+        }
     }
 
     override fun createBlockEntity(view: BlockView) = LumusRedirector()

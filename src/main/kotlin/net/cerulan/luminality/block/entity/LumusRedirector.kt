@@ -17,6 +17,10 @@ open class LumusRedirector : LumusPump(LuminalityBlocks.BlockEntities.lumusRedir
     val lumusSink = LumusNode(LumusNodeMode.SINK)
     val lumusSource = LumusNode(LumusNodeMode.SOURCE)
 
+    init {
+        lumusSink.attachRange = 0.1f
+    }
+
     override fun tick() {
         lumusSource.radiance = lumusSink.radiance
         lumusSource.flow = lumusSink.flow
@@ -24,7 +28,13 @@ open class LumusRedirector : LumusPump(LuminalityBlocks.BlockEntities.lumusRedir
     }
 
     override val outputDirection: Direction
-        get() = LuminalityUtil.getDirectionRightAngle(cachedState[BlockLumusRedirector.Props.output], direction!!)
+        get() {
+            return direction?.let {
+                LuminalityUtil.getDirectionRightAngle(cachedState[BlockLumusRedirector.Props.output],
+                    it
+                )
+            } ?: Direction.DOWN
+        }
 
     override fun getInputNode(world: World, pos: BlockPos, direction: Direction): LumusNode? {
         return if (lumusSource.radiance * lumusSource.flow > 0) lumusSource else null

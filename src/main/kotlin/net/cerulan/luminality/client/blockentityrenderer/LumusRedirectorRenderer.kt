@@ -20,12 +20,14 @@ class LumusRedirectorRenderer(dispatcher: BlockEntityRenderDispatcher) :
         light: Int,
         overlay: Int
     ) {
-
-        if (!lumusRedirector.cachedState[BlockLumusPump.Props.valid]) return
         val direction = lumusRedirector.outputDirection
+        if (!lumusRedirector.cachedState[BlockLumusPump.Props.valid]) return
         matrixStack.push()
-        matrixStack.translate(0.0, 0.0, 0.0)
-        LumusRenderers.renderLumusBeam(lumusRedirector.rangeActual.toFloat() - 0.5f + lumusRedirector.offset, null, direction, tickDelta, lumusRedirector.world!!.time, matrixStack, vertexConsumerProvider)
+        val vec = direction.unitVector
+        val scale = 0.5f - lumusRedirector.lumusSink.attachRange
+        vec.scale(scale)
+        matrixStack.translate(vec.x.toDouble(), vec.y.toDouble(), vec.z.toDouble())
+        LumusRenderers.renderLumusBeam(lumusRedirector.rangeActual.toFloat() - 0.5f + lumusRedirector.offset - scale, null, direction, tickDelta, lumusRedirector.world!!.time, matrixStack, vertexConsumerProvider)
         matrixStack.pop()
     }
 
