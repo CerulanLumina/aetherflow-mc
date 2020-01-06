@@ -1,0 +1,30 @@
+{
+	"parent": "luminality:block/lumus_redirector/lumus_redirector",
+	"display": {
+		"firstperson_righthand": {
+			"translation": [2, 3, 0],
+			"rotation": [0, 270, 0],
+			"scale": [0.6, 0.6, 0.6]
+		},
+		"thirdperson_righthand": {
+			"translation": [2, 3, 0],
+			"rotation": [0, 270, 0],
+			"scale": [0.6, 0.6, 0.6]
+		},
+		"firstperson_lefthand": {
+			"translation": [2, 3, 0],
+			"rotation": [0, 270, 0],
+			"scale": [0.6, 0.6, 0.6]
+		},
+		"thirdperson_lefthand": {
+			"translation": [2, 3, 0],
+			"rotation": [0, 270, 0],
+			"scale": [0.6, 0.6, 0.6]
+		},
+		"gui": {
+			"translation": [-2, 0, 0],
+			"scale": [1.25, 1.25, 1.25],
+			"rotation": [90, 45, 0]
+		}
+	}
+}
