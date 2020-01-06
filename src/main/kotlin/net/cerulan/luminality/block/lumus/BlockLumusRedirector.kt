@@ -19,23 +19,35 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import java.util.*
 
 object BlockLumusRedirector : Block(
     FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
         0.5f,
         10f
     ).sounds(BlockSoundGroup.METAL).build()
-),  AttributeProvider,
+), AttributeProvider,
     BlockEntityProvider {
 
     object Props {
-        val output = IntProperty.of("output",0, 3)!!
+        val output = IntProperty.of("output", 0, 3)!!
     }
 
+    private val outlineMap: EnumMap<Direction, VoxelShape> = EnumMap(Direction::class.java)
+
     init {
-        defaultState = BlockLumusRedirector.stateManager.defaultState.with(Props.output, 0).with(BlockLumusPump.Props.input, Direction.WEST).with(BlockLumusPump.Props.valid, false)
+        outlineMap[Direction.DOWN] = VoxelShapes.cuboid(0.25, 0.0625, 0.25, 0.75, 0.625, 0.75)
+        outlineMap[Direction.UP] = VoxelShapes.cuboid(0.25, 1-0.0625, 0.25, 0.75, 1-0.625, 0.75)
+        outlineMap[Direction.EAST] = VoxelShapes.cuboid(1-0.0625, 0.25, 0.25, 1-0.625, 0.75, 0.75)
+        outlineMap[Direction.WEST] = VoxelShapes.cuboid(0.0625, 0.25, 0.25, 0.625, 0.75, 0.75)
+        outlineMap[Direction.NORTH] = VoxelShapes.cuboid(0.25, 0.25, 0.0625, 0.75, 0.75, 0.625)
+        outlineMap[Direction.SOUTH] = VoxelShapes.cuboid(0.25, 0.25, 1-0.0625, 0.75, 0.75, 1-0.625)
+        defaultState = BlockLumusRedirector.stateManager.defaultState.with(Props.output, 0)
+            .with(BlockLumusPump.Props.input, Direction.WEST).with(BlockLumusPump.Props.valid, false)
+
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
@@ -97,6 +109,10 @@ object BlockLumusRedirector : Block(
         pos: BlockPos,
         ePos: EntityContext
     ): VoxelShape {
-        return super.getOutlineShape(state, view, pos, ePos)
+        val inD = state[BlockLumusPump.Props.input]
+        val input = outlineMap[inD]
+        val output = outlineMap[LuminalityUtil.getDirectionRightAngle(state[Props.output], inD)]
+
+        return VoxelShapes.union(input, output)
     }
 }
