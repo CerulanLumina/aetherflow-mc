@@ -23,7 +23,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
 
     protected open fun updateCachedRange() {
         val builder = ImmutableList.builder<BlockPos>()
-        for (i in 0..range) {
+        for (i in 1..range) {
             builder.add(pos.offset(outputDirection, i))
         }
         cachedRanged = builder.build()
@@ -64,7 +64,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
         val node = getInputNode(world!!, pos, direction!!)
         if (active && node != null && target != null) {
             val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection.opposite))
-            if (targetNode != null && targetNode.mode == LumusNodeMode.SINK) {
+            if (targetNode != null && targetNode.mode == LumusNodeMode.SINK && cachedRanged.subList(0, rangeActual - 1).all { pos -> world!!.getBlockState(pos).isAir }) {
                 targetNode.flow = node.flow
                 targetNode.radiance = node.radiance
             } else {
@@ -80,7 +80,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
                     offset = searchNode.attachRange
                     sync()
                     break
-                }
+                } else if (!world!!.getBlockState(searchPos).isAir) break
             }
         } else {
             if (active) active = false
