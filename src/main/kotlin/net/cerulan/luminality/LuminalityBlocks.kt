@@ -13,10 +13,10 @@ import net.minecraft.block.entity.BlockEntityType
 
 object LuminalityBlocks {
     val shimmerInducer = BlockShimmerInducer
-    val luminalFurnace = BlockLuminalFurnace
     val lumusPump = BlockLumusPump
-    val lumusWellspring = BlockLumusWellspring
     val lumusRedirector = BlockLumusRedirector
+    val luminalFurnace = BlockLuminalFurnace
+    val lumusWellspring = BlockLumusWellspring
 
     object BlockEntities {
         lateinit var shimmerInducerEntity: BlockEntityType<ShimmerInducer>

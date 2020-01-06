@@ -31,10 +31,10 @@ object LuminalityMod : ModInitializer {
 
     private fun registerBlocks() {
         registerBlock("shimmer_inducer", LuminalityBlocks.shimmerInducer)
-        registerBlock("luminal_furnace", LuminalityBlocks.luminalFurnace)
         registerBlock("lumus_pump", LuminalityBlocks.lumusPump)
-        registerBlock("lumus_wellspring", LuminalityBlocks.lumusWellspring)
         registerBlock("lumus_redirector", LuminalityBlocks.lumusRedirector)
+        registerBlock("luminal_furnace", LuminalityBlocks.luminalFurnace)
+        registerBlock("lumus_wellspring", LuminalityBlocks.lumusWellspring)
     }
 
     private fun registerBlockEntities() {
