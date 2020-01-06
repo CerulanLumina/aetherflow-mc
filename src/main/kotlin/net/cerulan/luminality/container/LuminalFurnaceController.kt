@@ -26,6 +26,9 @@ class LuminalFurnaceController(syncId: Int, playerInv: PlayerInventory, context:
     companion object {
         private val bar_full = Identifier("luminality", "textures/gui/container/progress_full.png")
         private val bar_empty = Identifier("luminality", "textures/gui/container/progress_empty.png")
+        private val mode_both = Identifier("luminality", "textures/gui/container/luminal_furnace_mode_both.png")
+        private val mode_furnace = Identifier("luminality", "textures/gui/container/luminal_furnace_mode_furnace.png")
+        private val mode_luminal = Identifier("luminality", "textures/gui/container/luminal_furnace_mode_luminal.png")
     }
 
     private val inputSlot: WItemSlot
@@ -37,7 +40,7 @@ class LuminalFurnaceController(syncId: Int, playerInv: PlayerInventory, context:
         inputSlot = WItemSlot.of(blockInventory, 0)
         outputSlot = WItemSlot.of(blockInventory, 1)
 
-        val modeSprite = WSpriteButton(bar_full, bar_empty)
+        val modeSprite = WSpriteButton(mode_both, mode_furnace, mode_luminal)
         modeSprite.setSize(18, 18)
         modeSprite.currentImage = propertyDelegate.get(2)
 

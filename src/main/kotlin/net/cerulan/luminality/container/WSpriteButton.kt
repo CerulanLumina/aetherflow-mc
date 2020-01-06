@@ -71,7 +71,7 @@ class WSpriteButton(vararg images: Identifier) : WWidget() {
             -1
         )
 
-        sprite.paintBackground(x, y, mouseX, mouseY)
+        sprite.paintBackground(x + 2, y + 2, mouseX, mouseY)
     }
 
     override fun setLocation(x: Int, y: Int) {
@@ -82,7 +82,7 @@ class WSpriteButton(vararg images: Identifier) : WWidget() {
     override fun setSize(x: Int, y: Int) {
         width = x
         height = y
-        sprite.setSize(x, y)
+        sprite.setSize(x - 4, y - 4)
     }
 
     override fun onClick(x: Int, y: Int, button: Int) {
