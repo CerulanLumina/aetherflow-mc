@@ -2,6 +2,7 @@ package net.cerulan.luminality.client.blockentityrenderer
 
 import net.cerulan.luminality.block.entity.LumusPump
 import net.cerulan.luminality.block.entity.LumusRedirector
+import net.cerulan.luminality.block.entity.LumusRegulator
 import net.cerulan.luminality.block.lumus.BlockLumusPump
 import net.cerulan.luminality.client.LumusRenderers
 import net.minecraft.client.render.VertexConsumerProvider
@@ -9,29 +10,29 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.util.math.MatrixStack
 
-class LumusRedirectorRenderer(dispatcher: BlockEntityRenderDispatcher) :
-    BlockEntityRenderer<LumusRedirector>(dispatcher) {
+class LumusRegulatorRenderer(dispatcher: BlockEntityRenderDispatcher) :
+    BlockEntityRenderer<LumusRegulator>(dispatcher) {
 
     override fun render(
-        lumusRedirector: LumusRedirector,
+        lumusRegulator: LumusRegulator,
         tickDelta: Float,
         matrixStack: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
         light: Int,
         overlay: Int
     ) {
-        val direction = lumusRedirector.outputDirection ?: return
-        if (!lumusRedirector.cachedState[BlockLumusPump.Props.valid]) return
+        val direction = lumusRegulator.outputDirection ?: return
+        if (!lumusRegulator.cachedState[BlockLumusPump.Props.valid]) return
         matrixStack.push()
         val vec = direction.unitVector
-        val scale = 0.5f - lumusRedirector.lumusSink.attachRange
+        val scale = 0.5f - lumusRegulator.lumusSink.attachRange
         vec.scale(scale)
         matrixStack.translate(vec.x.toDouble(), vec.y.toDouble(), vec.z.toDouble())
-        LumusRenderers.renderLumusBeam(lumusRedirector.rangeActual.toFloat() - 0.5f + lumusRedirector.offset - scale, null, direction, tickDelta, lumusRedirector.world!!.time, matrixStack, vertexConsumerProvider)
+        LumusRenderers.renderLumusBeam(lumusRegulator.rangeActual.toFloat() - 0.5f + lumusRegulator.offset - scale, null, direction, tickDelta, lumusRegulator.world!!.time, matrixStack, vertexConsumerProvider)
         matrixStack.pop()
     }
 
 
 
-    override fun rendersOutsideBoundingBox(af: LumusRedirector): Boolean = true
+    override fun rendersOutsideBoundingBox(af: LumusRegulator): Boolean = true
 }

@@ -1,0 +1,7 @@
+{
+	"parent": "luminality:block/lumus_pump/lumus_pump",
+	"textures": {
+		"1": "luminality:block/lumus_regulator/lumus_regulator_body",
+		"4": "luminality:block/lumus_regulator/lumus_regulator_bg"
+	}
+}

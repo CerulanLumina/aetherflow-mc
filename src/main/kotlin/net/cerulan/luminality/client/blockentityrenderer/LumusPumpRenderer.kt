@@ -21,7 +21,7 @@ class LumusPumpRenderer(dispatcher: BlockEntityRenderDispatcher) :
     ) {
 
         if (!lumusPump.cachedState[BlockLumusPump.Props.valid]) return
-        val direction = lumusPump.cachedState[BlockLumusPump.Props.input].opposite
+        val direction = lumusPump.outputDirection ?: return
         matrixStack.push()
         matrixStack.translate(0.0, 0.0, 0.0)
         LumusRenderers.renderLumusBeam(lumusPump.rangeActual.toFloat() - 0.5f + lumusPump.offset, null, direction, tickDelta, lumusPump.world!!.time, matrixStack, vertexConsumerProvider)

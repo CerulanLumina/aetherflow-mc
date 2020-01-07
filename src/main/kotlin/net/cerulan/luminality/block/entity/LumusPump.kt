@@ -53,8 +53,8 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
         return LuminalityAttributes.lumusNode.getFirstOrNull(world, pos.offset(direction), SearchOptions.inDirection(direction.opposite))
     }
 
-    open val outputDirection: Direction
-        get() = direction!!.opposite
+    open val outputDirection: Direction?
+        get() = direction?.opposite
 
     override fun tick() {
         if (direction == null) {
@@ -63,7 +63,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
         if (world!!.isClient) return
         val node = getInputNode(world!!, pos, direction!!)
         if (active && node != null && target != null) {
-            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection.opposite))
+            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection!!.opposite))
             if (targetNode != null && targetNode.mode == LumusNodeMode.SINK && cachedRanged.subList(0, rangeActual - 1).all { pos -> world!!.getBlockState(pos).isAir }) {
                 targetNode.flow = node.flow
                 targetNode.radiance = node.radiance
@@ -72,7 +72,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
             }
         } else if (node != null && target == null) {
             for (searchPos in cachedRanged) {
-                val searchNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, searchPos, SearchOptions.inDirection(outputDirection.opposite))
+                val searchNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, searchPos, SearchOptions.inDirection(outputDirection!!.opposite))
                 if (searchNode != null && searchNode.mode == LumusNodeMode.SINK) {
                     active = true
                     target = searchPos
@@ -92,7 +92,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
 
     open fun unsetTarget() {
         if (target != null)  {
-            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection.opposite))
+            val targetNode = LuminalityAttributes.lumusNode.getFirstOrNull(world!!, target, SearchOptions.inDirection(outputDirection!!.opposite))
             if (targetNode != null) {
                 targetNode.radiance = 0
                 targetNode.flow = 0

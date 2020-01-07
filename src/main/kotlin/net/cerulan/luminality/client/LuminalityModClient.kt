@@ -3,6 +3,7 @@ package net.cerulan.luminality.client
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.client.blockentityrenderer.LumusPumpRenderer
 import net.cerulan.luminality.client.blockentityrenderer.LumusRedirectorRenderer
+import net.cerulan.luminality.client.blockentityrenderer.LumusRegulatorRenderer
 import net.cerulan.luminality.client.blockentityrenderer.ShimmerInducerRenderer
 import net.cerulan.luminality.client.gui.LuminalFurnaceScreen
 import net.cerulan.luminality.container.LuminalFurnaceController
@@ -26,6 +27,10 @@ object LuminalityModClient : ClientModInitializer {
 
         BlockEntityRendererRegistry.INSTANCE.register(LuminalityBlocks.BlockEntities.lumusRedirectorEntity){
                 dispatcher -> LumusRedirectorRenderer(dispatcher)
+        }
+
+        BlockEntityRendererRegistry.INSTANCE.register(LuminalityBlocks.BlockEntities.lumusRegulatorEntity){
+                dispatcher -> LumusRegulatorRenderer(dispatcher)
         }
 
         ScreenProviderRegistry.INSTANCE.registerFactory(

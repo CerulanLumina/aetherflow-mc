@@ -15,8 +15,8 @@ object BlockLumusWellspring: Block(FabricBlockSettings.of(Material.STONE).streng
 
     private val source = LumusNode(LumusNodeMode.SOURCE)
         get() {
-            field.radiance = 4
-            field.flow = 8
+            field.radiance = 1
+            field.flow = 2
             return field
         }
 

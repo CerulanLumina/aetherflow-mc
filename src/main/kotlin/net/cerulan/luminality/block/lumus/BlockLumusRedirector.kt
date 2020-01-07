@@ -82,13 +82,8 @@ object BlockLumusRedirector : Block(
         val hx = MathHelper.fractionalPart(ctx.hitPos.x)
         val hy = MathHelper.fractionalPart(ctx.hitPos.y)
         val hz = MathHelper.fractionalPart(ctx.hitPos.z)
-        if (ctx.world.isClient) {
-            println("x: $hx")
-            println("x: $hy")
-            println("x: $hz")
-        }
-        try {
-            return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite).with(
+        return try {
+            defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite).with(
                 Props.output,
                 LuminalityUtil.getDirectionRightAngleIndex(
                     ctx.side.opposite,
@@ -97,7 +92,7 @@ object BlockLumusRedirector : Block(
             )
         } catch (ex: Exception) {
             ex.printStackTrace()
-            return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite)
+            defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite)
         }
     }
 

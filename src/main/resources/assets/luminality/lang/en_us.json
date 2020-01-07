@@ -6,6 +6,7 @@
   "block.luminality.lumus_pump": "Lumus Pump",
   "block.luminality.lumus_wellspring": "Lumus Wellspring",
   "block.luminality.lumus_redirector": "Lumus Redirector",
+  "block.luminality.lumus_regulator": "Lumus Regulator",
   "container.luminality.luminal_furnace.mode.all": "All",
   "container.luminality.luminal_furnace.mode.furnace": "Furnace Only",
   "container.luminality.luminal_furnace.mode.luminal": "Luminal Only"

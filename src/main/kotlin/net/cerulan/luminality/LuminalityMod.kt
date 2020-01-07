@@ -1,9 +1,6 @@
 package net.cerulan.luminality
 
-import net.cerulan.luminality.block.entity.LuminalFurnace
-import net.cerulan.luminality.block.entity.LumusPump
-import net.cerulan.luminality.block.entity.LumusRedirector
-import net.cerulan.luminality.block.entity.ShimmerInducer
+import net.cerulan.luminality.block.entity.*
 import net.cerulan.luminality.container.LuminalFurnaceController
 import net.cerulan.luminality.networking.LuminalityPackets
 import net.cerulan.luminality.recipe.LuminalityRecipeTypes
@@ -33,6 +30,7 @@ object LuminalityMod : ModInitializer {
         registerBlock("shimmer_inducer", LuminalityBlocks.shimmerInducer)
         registerBlock("lumus_pump", LuminalityBlocks.lumusPump)
         registerBlock("lumus_redirector", LuminalityBlocks.lumusRedirector)
+        registerBlock("lumus_regulator", LuminalityBlocks.lumusRegulator)
         registerBlock("luminal_furnace", LuminalityBlocks.luminalFurnace)
         registerBlock("lumus_wellspring", LuminalityBlocks.lumusWellspring)
     }
@@ -46,6 +44,8 @@ object LuminalityMod : ModInitializer {
             registerBlockEntity("lumus_pump", LuminalityBlocks.lumusPump, Supplier { LumusPump() })
         LuminalityBlocks.BlockEntities.lumusRedirectorEntity =
             registerBlockEntity("lumus_redirector", LuminalityBlocks.lumusRedirector, Supplier { LumusRedirector() })
+        LuminalityBlocks.BlockEntities.lumusRegulatorEntity =
+            registerBlockEntity("lumus_regulator", LuminalityBlocks.lumusRegulator, Supplier { LumusRegulator() })
     }
 
     private fun registerScreenControllers() {
