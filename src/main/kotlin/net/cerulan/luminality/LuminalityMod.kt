@@ -69,7 +69,7 @@ object LuminalityMod : ModInitializer {
 
     private fun <T : BlockEntity> registerBlockEntity(id: String, block: Block, sup: Supplier<T>): BlockEntityType<T> {
         return Registry.register(
-            Registry.BLOCK_ENTITY,
+            Registry.BLOCK_ENTITY_TYPE,
             Identifier("luminality", id),
             BlockEntityType.Builder.create(sup, block).build(null)
         )
