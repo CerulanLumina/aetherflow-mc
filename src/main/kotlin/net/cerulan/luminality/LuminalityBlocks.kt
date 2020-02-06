@@ -1,22 +1,20 @@
 package net.cerulan.luminality
 
-import net.cerulan.luminality.block.BlockLuminalFurnace
-import net.cerulan.luminality.block.BlockShimmerInducer
-import net.cerulan.luminality.block.lumus.LumusWellspringBlock
+import net.cerulan.luminality.block.LuminalFurnaceBlock
+import net.cerulan.luminality.block.ShimmerInducerBlock
+import net.cerulan.luminality.block.entity.*
+import net.cerulan.luminality.block.lumus.LumusRegulatorBlock
 import net.cerulan.luminality.block.lumus.LumusPumpBlock
-import net.cerulan.luminality.block.entity.LuminalFurnace
-import net.cerulan.luminality.block.entity.LumusPump
-import net.cerulan.luminality.block.entity.LumusRedirector
-import net.cerulan.luminality.block.entity.ShimmerInducer
 import net.cerulan.luminality.block.lumus.LumusRedirectorBlock
+import net.cerulan.luminality.block.lumus.LumusWellspringBlock
 import net.minecraft.block.entity.BlockEntityType
 
 object LuminalityBlocks {
-    val shimmerInducer = BlockShimmerInducer
+    val shimmerInducer = ShimmerInducerBlock
     val lumusPump = LumusPumpBlock
     val lumusRedirector = LumusRedirectorBlock
-    val lumusRegulator = BlockLumusRegulator
-    val luminalFurnace = BlockLuminalFurnace
+    val lumusRegulator = LumusRegulatorBlock
+    val luminalFurnace = LuminalFurnaceBlock
     val lumusWellspring = LumusWellspringBlock
 
     object BlockEntities {

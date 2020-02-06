@@ -19,7 +19,7 @@ class LumusRedirectorRenderer(dispatcher: BlockEntityRenderDispatcher) :
         light: Int,
         overlay: Int
     ) {
-        val direction = lumusRedirector.outputDirection
+        val direction = lumusRedirector.outputDirection ?: return
         if (!lumusRedirector.cachedState[LumusPumpBlock.Props.valid]) return
         matrixStack.push()
         val vec = direction.unitVector

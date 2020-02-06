@@ -18,7 +18,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object BlockLumusRegulator: Block(
+object LumusRegulatorBlock: Block(
     FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
         0.5f,
         10f
@@ -28,20 +28,20 @@ object BlockLumusRegulator: Block(
     BlockEntityProvider {
 
     init {
-        defaultState = BlockLumusPump.stateManager.defaultState.with(BlockLumusPump.Props.input, Direction.DOWN).with(
-            BlockLumusPump.Props.valid, false)
+        defaultState = LumusPumpBlock.stateManager.defaultState.with(LumusPumpBlock.Props.input, Direction.DOWN).with(
+            LumusPumpBlock.Props.valid, false)
     }
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
         list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
-        if (be is LumusRegulator && list.searchDirection == state[BlockLumusPump.Props.input]) {
+        if (be is LumusRegulator && list.searchDirection == state[LumusPumpBlock.Props.input]) {
             list.offer(be.lumusSink)
         }
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(BlockLumusPump.Props.input, BlockLumusPump.Props.valid)
+        builder.add(LumusPumpBlock.Props.input, LumusPumpBlock.Props.valid)
     }
 
     @SuppressWarnings("deprecation")

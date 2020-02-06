@@ -3,7 +3,7 @@ package net.cerulan.luminality.client.blockentityrenderer
 import net.cerulan.luminality.block.entity.LumusPump
 import net.cerulan.luminality.block.entity.LumusRedirector
 import net.cerulan.luminality.block.entity.LumusRegulator
-import net.cerulan.luminality.block.lumus.BlockLumusPump
+import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.cerulan.luminality.client.LumusRenderers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher
@@ -22,7 +22,7 @@ class LumusRegulatorRenderer(dispatcher: BlockEntityRenderDispatcher) :
         overlay: Int
     ) {
         val direction = lumusRegulator.outputDirection ?: return
-        if (!lumusRegulator.cachedState[BlockLumusPump.Props.valid]) return
+        if (!lumusRegulator.cachedState[LumusPumpBlock.Props.valid]) return
         matrixStack.push()
         val vec = direction.unitVector
         val scale = 0.5f - lumusRegulator.lumusSink.attachRange

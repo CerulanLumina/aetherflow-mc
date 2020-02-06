@@ -20,7 +20,7 @@ import net.minecraft.world.IWorld
 import net.minecraft.world.World
 
 
-object BlockShimmerInducer :
+object ShimmerInducerBlock :
     Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(0.33f, 15f).build()),
     BlockEntityProvider,
     AttributeProvider,
