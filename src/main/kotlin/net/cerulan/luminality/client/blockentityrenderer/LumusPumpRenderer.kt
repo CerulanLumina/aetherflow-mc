@@ -1,7 +1,7 @@
 package net.cerulan.luminality.client.blockentityrenderer
 
 import net.cerulan.luminality.block.entity.LumusPump
-import net.cerulan.luminality.block.lumus.BlockLumusPump
+import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.cerulan.luminality.client.LumusRenderers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher
@@ -20,8 +20,8 @@ class LumusPumpRenderer(dispatcher: BlockEntityRenderDispatcher) :
         overlay: Int
     ) {
 
-        if (!lumusPump.cachedState[BlockLumusPump.Props.valid]) return
-        val direction = lumusPump.cachedState[BlockLumusPump.Props.input].opposite
+        if (!lumusPump.cachedState[LumusPumpBlock.Props.valid]) return
+        val direction = lumusPump.cachedState[LumusPumpBlock.Props.input].opposite
         matrixStack.push()
         matrixStack.translate(0.0, 0.0, 0.0)
         LumusRenderers.renderLumusBeam(lumusPump.rangeActual.toFloat() - 0.5f + lumusPump.offset, null, direction, tickDelta, lumusPump.world!!.time, matrixStack, vertexConsumerProvider)

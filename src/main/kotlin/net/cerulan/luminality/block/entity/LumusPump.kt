@@ -6,7 +6,7 @@ import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.LuminalityAttributes
 import net.cerulan.luminality.api.attr.LumusNode
 import net.cerulan.luminality.api.attr.LumusNodeMode
-import net.cerulan.luminality.block.lumus.BlockLumusPump
+import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -43,7 +43,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
         protected set(value) {
             field = value
             if (LuminalityAttributes.lumusPump.getFirstOrNull(world!!, pos) != null)
-                world!!.setBlockState(pos, world!!.getBlockState(pos).with(BlockLumusPump.Props.valid, field))
+                world!!.setBlockState(pos, world!!.getBlockState(pos).with(LumusPumpBlock.Props.valid, field))
         }
 
     open var target: BlockPos? = null
@@ -58,7 +58,7 @@ open class LumusPump(blockEntityType: BlockEntityType<*> = LuminalityBlocks.Bloc
 
     override fun tick() {
         if (direction == null) {
-            direction = cachedState.get(BlockLumusPump.Props.input)
+            direction = cachedState.get(LumusPumpBlock.Props.input)
         }
         if (world!!.isClient) return
         val node = getInputNode(world!!, pos, direction!!)
