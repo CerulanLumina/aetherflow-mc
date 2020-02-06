@@ -11,7 +11,7 @@ import net.minecraft.block.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-object BlockLumusWellspring: Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).nonOpaque().dropsNothing().build()), AttributeProvider {
+object LumusWellspringBlock: Block(FabricBlockSettings.of(Material.STONE).strength(-1.0F, 3600000.0F).nonOpaque().dropsNothing().build()), AttributeProvider {
 
     private val source = LumusNode(LumusNodeMode.SOURCE)
         get() {

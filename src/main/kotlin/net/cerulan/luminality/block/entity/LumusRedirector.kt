@@ -4,7 +4,7 @@ import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.LuminalityUtil
 import net.cerulan.luminality.api.attr.LumusNode
 import net.cerulan.luminality.api.attr.LumusNodeMode
-import net.cerulan.luminality.block.lumus.BlockLumusRedirector
+import net.cerulan.luminality.block.lumus.LumusRedirectorBlock
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.util.Tickable
 import net.minecraft.util.math.BlockPos
@@ -30,7 +30,7 @@ open class LumusRedirector : LumusPump(LuminalityBlocks.BlockEntities.lumusRedir
     override val outputDirection: Direction?
         get() {
             return direction?.let {
-                LuminalityUtil.getDirectionRightAngle(cachedState[BlockLumusRedirector.Props.output],
+                LuminalityUtil.getDirectionRightAngle(cachedState[LumusRedirectorBlock.Props.output],
                     it
                 )
             }

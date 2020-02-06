@@ -22,7 +22,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object BlockLumusPump :
+object LumusPumpBlock :
     Block(
         FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
             0.5f,
