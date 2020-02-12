@@ -30,7 +30,8 @@
     ]
   },
   "mixins": [
-    "luminality.mixins.json"
+    "luminality.mixins.json",
+    "luminality_client.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.1",
