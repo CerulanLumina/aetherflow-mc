@@ -68,10 +68,8 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
 
     override fun tick() {
         if (world!!.isClient) return
-        if (lumusSink.radiance < minimumRadiance) {
-            return
-        }
 
+        if (lumusSink.radiance < minimumRadiance) return
         if (!input.getInvStack(0).isEmpty) {
             when (mode) {
                 Mode.ALL -> {
@@ -89,7 +87,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
                         flowTicks = 0
                         output.insert(0, getLuminalRecipe().output)
                         input.extract(1)
-                    } else if (hasFurnaceRecipe() && flowTicks == furnaceFlowTicks) {
+                    } else if (hasFurnaceRecipe() && flowTicks >= furnaceFlowTicks) {
                         flowTicks = 0
                         output.insert(0, getSmeltingRecipe().output)
                         input.extract(1)
@@ -104,7 +102,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
                         flowTicks = 0
                         maxFlowTicks = 0
                     }
-                    if (hasFurnaceRecipe() && flowTicks == furnaceFlowTicks) {
+                    if (hasFurnaceRecipe() && flowTicks >= furnaceFlowTicks) {
                         flowTicks = 0
                         output.insert(0, getSmeltingRecipe().output)
                         input.extract(1)
@@ -119,7 +117,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
                         flowTicks = 0
                         maxFlowTicks = 0
                     }
-                    if (hasLuminalRecipe() && flowTicks == getLuminalRecipe().flowticks) {
+                    if (hasLuminalRecipe() && flowTicks >= getLuminalRecipe().flowticks) {
                         flowTicks = 0
                         output.insert(0, getLuminalRecipe().output)
                         input.extract(1)

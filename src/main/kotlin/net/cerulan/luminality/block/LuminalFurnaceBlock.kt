@@ -25,7 +25,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.IWorld
 import net.minecraft.world.World
 
-object BlockLuminalFurnace :
+object LuminalFurnaceBlock :
     Block(FabricBlockSettings.of(Material.STONE).nonOpaque().breakByHand(true).strength(1f, 5f).sounds(BlockSoundGroup.METAL).build()),
     AttributeProvider,
     InventoryProvider,

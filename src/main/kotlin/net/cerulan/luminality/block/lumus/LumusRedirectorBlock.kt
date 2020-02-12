@@ -24,7 +24,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.*
 
-object BlockLumusRedirector : Block(
+object LumusRedirectorBlock : Block(
     FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
         0.5f,
         10f
@@ -45,19 +45,19 @@ object BlockLumusRedirector : Block(
         outlineMap[Direction.WEST] = VoxelShapes.cuboid(0.0625, 0.25, 0.25, 0.625, 0.75, 0.75)
         outlineMap[Direction.NORTH] = VoxelShapes.cuboid(0.25, 0.25, 0.0625, 0.75, 0.75, 0.625)
         outlineMap[Direction.SOUTH] = VoxelShapes.cuboid(0.25, 0.25, 1-0.0625, 0.75, 0.75, 1-0.625)
-        defaultState = BlockLumusRedirector.stateManager.defaultState.with(Props.output, 0)
-            .with(BlockLumusPump.Props.input, Direction.WEST).with(BlockLumusPump.Props.valid, false)
+        defaultState = LumusRedirectorBlock.stateManager.defaultState.with(Props.output, 0)
+            .with(LumusPumpBlock.Props.input, Direction.WEST).with(LumusPumpBlock.Props.valid, false)
 
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(Props.output, BlockLumusPump.Props.input, BlockLumusPump.Props.valid)
+        builder.add(Props.output, LumusPumpBlock.Props.input, LumusPumpBlock.Props.valid)
     }
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
         list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
-        if (be is LumusRedirector && list.searchDirection == state[BlockLumusPump.Props.input]) {
+        if (be is LumusRedirector && list.searchDirection == state[LumusPumpBlock.Props.input]) {
             list.offer(be.lumusSink)
         }
     }
@@ -82,13 +82,8 @@ object BlockLumusRedirector : Block(
         val hx = MathHelper.fractionalPart(ctx.hitPos.x)
         val hy = MathHelper.fractionalPart(ctx.hitPos.y)
         val hz = MathHelper.fractionalPart(ctx.hitPos.z)
-        if (ctx.world.isClient) {
-            println("x: $hx")
-            println("x: $hy")
-            println("x: $hz")
-        }
         try {
-            return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite).with(
+            return defaultState.with(LumusPumpBlock.Props.input, ctx.side.opposite).with(
                 Props.output,
                 LuminalityUtil.getDirectionRightAngleIndex(
                     ctx.side.opposite,
@@ -97,7 +92,7 @@ object BlockLumusRedirector : Block(
             )
         } catch (ex: Exception) {
             ex.printStackTrace()
-            return defaultState.with(BlockLumusPump.Props.input, ctx.side.opposite)
+            return defaultState.with(LumusPumpBlock.Props.input, ctx.side.opposite)
         }
     }
 
@@ -109,7 +104,7 @@ object BlockLumusRedirector : Block(
         pos: BlockPos,
         ePos: EntityContext
     ): VoxelShape {
-        val inD = state[BlockLumusPump.Props.input]
+        val inD = state[LumusPumpBlock.Props.input]
         val input = outlineMap[inD]
         val output = outlineMap[LuminalityUtil.getDirectionRightAngle(state[Props.output], inD)]
 

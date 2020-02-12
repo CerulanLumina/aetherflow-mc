@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "input=north,valid=true": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator"
+    },
+    "input=north,valid=false": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator_inactive"
+    },
+    "input=west,valid=true": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator",
+      "y": 270
+    },
+    "input=west,valid=false": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator_inactive",
+      "y": 270
+    },
+    "input=south,valid=true": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator",
+      "y": 180
+    },
+    "input=south,valid=false": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator_inactive",
+      "y": 180
+    },
+    "input=east,valid=true": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator",
+      "y": 90
+    },
+    "input=east,valid=false": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator_inactive",
+      "y": 90
+    },
+    "input=up,valid=true": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator",
+      "x": 270
+    },
+    "input=up,valid=false": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator_inactive",
+      "x": 270
+    },
+    "input=down,valid=true": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator",
+      "x": 90
+    },
+    "input=down,valid=false": {
+      "model": "luminality:block/lumus_regulator/lumus_regulator_inactive",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "luminality:block/lumus_regulator/lumus_regulator",
+  "textures": {
+    "0": "luminality:block/lumus_regulator/lumus_regulator_status_off"
+  }
+}
