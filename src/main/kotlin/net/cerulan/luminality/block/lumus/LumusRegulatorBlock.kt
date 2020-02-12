@@ -28,7 +28,7 @@ object LumusRegulatorBlock: Block(
     BlockEntityProvider {
 
     init {
-        defaultState = LumusPumpBlock.stateManager.defaultState.with(LumusPumpBlock.Props.input, Direction.DOWN).with(
+        defaultState = stateManager.defaultState.with(LumusPumpBlock.Props.input, Direction.DOWN).with(
             LumusPumpBlock.Props.valid, false)
     }
 
