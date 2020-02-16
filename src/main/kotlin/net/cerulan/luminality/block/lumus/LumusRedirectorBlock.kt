@@ -82,12 +82,14 @@ object LumusRedirectorBlock : Block(
         val hx = MathHelper.fractionalPart(ctx.hitPos.x)
         val hy = MathHelper.fractionalPart(ctx.hitPos.y)
         val hz = MathHelper.fractionalPart(ctx.hitPos.z)
+        val input = LuminalityUtil.getDirectionFromHitPos(ctx.side, hx, hy, hz)
         try {
-            return defaultState.with(LumusPumpBlock.Props.input, ctx.side.opposite).with(
+            val output = input.rotateYClockwise()
+            return defaultState.with(LumusPumpBlock.Props.input, input).with(
                 Props.output,
                 LuminalityUtil.getDirectionRightAngleIndex(
-                    ctx.side.opposite,
-                    LuminalityUtil.getDirectionFromHitPos(ctx.side, hx, hy, hz)
+                    input,
+                    output
                 )
             )
         } catch (ex: Exception) {
