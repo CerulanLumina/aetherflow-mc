@@ -5,6 +5,7 @@ import alexiil.mc.lib.attributes.AttributeProvider
 import net.cerulan.luminality.LuminalityUtil
 import net.cerulan.luminality.api.attr.LumusPumpMarker
 import net.cerulan.luminality.block.entity.LumusRedirector
+//import net.cerulan.luminality.block.entity.LumusRedirector
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
@@ -58,7 +59,7 @@ object LumusRedirectorBlock : Block(
         list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
         if (be is LumusRedirector && list.searchDirection == state[LumusPumpBlock.Props.input]) {
-            list.offer(be.lumusSink)
+//            list.offer(be.lumusSink)
         }
     }
 
@@ -73,7 +74,7 @@ object LumusRedirectorBlock : Block(
         if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusRedirector) {
-            be.unsetTarget()
+//            be.unsetTarget()
         }
         super.onBlockRemoved(state, world, pos, newState, moved)
     }
