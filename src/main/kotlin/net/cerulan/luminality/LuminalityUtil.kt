@@ -1,10 +1,8 @@
 package net.cerulan.luminality
 
 import com.google.common.collect.ImmutableSet
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec2f
-import net.minecraft.util.math.Vec3d
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.util.math.*
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.HashSet
@@ -131,6 +129,28 @@ object LuminalityUtil {
         } else null
     }
 
+}
 
+fun CompoundTag.putVec3d(key: String, vec3d: Vec3d) {
+    val inner = CompoundTag()
+    inner.putDouble("x", vec3d.x)
+    inner.putDouble("y", vec3d.y)
+    inner.putDouble("z", vec3d.z)
+    this.put(key, inner)
+}
 
+fun CompoundTag.getVec3d(key: String): Vec3d? {
+    val inner: CompoundTag? = if (this.contains("target")) { this.getCompound(key) } else { null }
+    return inner?.let {
+        val x = it.getDouble("x")
+        val y = it.getDouble("y")
+        val z = it.getDouble("z")
+        Vec3d(x, y, z)
+    }
+}
+
+fun Vec3i?.toVec3d(): Vec3d? {
+    return this?.let {
+        Vec3d(it.x.toDouble(), it.y.toDouble(), it.z.toDouble())
+    }
 }
