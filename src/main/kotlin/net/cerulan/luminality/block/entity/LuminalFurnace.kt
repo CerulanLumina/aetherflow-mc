@@ -7,6 +7,7 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.attr.LumusNode
 import net.cerulan.luminality.api.attr.LumusNodeMode
+import net.cerulan.luminality.api.attr.LumusSink
 import net.cerulan.luminality.inventory.AttributeSidedInventory
 import net.cerulan.luminality.inventory.MachineInputItemInv
 import net.cerulan.luminality.inventory.MachineRecipeProvider
@@ -36,8 +37,8 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
     Tickable, MachineRecipeProvider {
 
     companion object {
-        val minimumRadiance = 4
-        val furnaceFlowTicks = 800
+        const val minimumRadiance = 4
+        const val furnaceFlowTicks = 800
     }
 
     enum class Mode(val recipeTypes: ImmutableList<RecipeType<out Recipe<Inventory>>>) {
@@ -46,7 +47,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
         ONLY_LUMINAL(ImmutableList.builder<RecipeType<out Recipe<Inventory>>>().add(LuminalityRecipeTypes.luminalFurnace).build())
     }
 
-    val lumusSink = LumusNode(LumusNodeMode.SINK)
+    val lumusSink = LumusSink()
     var mode = Mode.ALL
 
     var maxFlowTicks = 0
@@ -69,15 +70,15 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
     override fun tick() {
         if (world!!.isClient) return
 
-        if (lumusSink.radiance < minimumRadiance) return
+        if (lumusSink.power.radiance < minimumRadiance) return
         if (!input.getInvStack(0).isEmpty) {
             when (mode) {
                 Mode.ALL -> {
                     if (hasLuminalRecipe()) {
-                        flowTicks += lumusSink.flow
+                        flowTicks += lumusSink.power.flow
                         maxFlowTicks = getLuminalRecipe().flowticks
                     } else if (hasFurnaceRecipe()) {
-                        flowTicks += lumusSink.flow
+                        flowTicks += lumusSink.power.flow
                         maxFlowTicks = furnaceFlowTicks
                     } else {
                         maxFlowTicks = 0
@@ -95,7 +96,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
                 }
                 Mode.ONLY_FURNACE -> {
                     if (hasFurnaceRecipe()) {
-                        flowTicks += lumusSink.flow
+                        flowTicks += lumusSink.power.flow
                         maxFlowTicks = furnaceFlowTicks
                     }
                     else {
@@ -111,7 +112,7 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
                 }
                 Mode.ONLY_LUMINAL -> {
                     if (hasLuminalRecipe()) {
-                        flowTicks += lumusSink.flow
+                        flowTicks += lumusSink.power.flow
                         maxFlowTicks = getLuminalRecipe().flowticks
                     } else {
                         flowTicks = 0

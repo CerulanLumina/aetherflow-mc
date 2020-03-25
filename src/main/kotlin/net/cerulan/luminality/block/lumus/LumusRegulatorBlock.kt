@@ -36,7 +36,7 @@ object LumusRegulatorBlock: Block(
         list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
         if (be is LumusRegulator && list.searchDirection == state[LumusPumpBlock.Props.input]) {
-            list.offer(be.lumusSink)
+//            list.offer(be.lumusSink)
         }
     }
 
@@ -55,7 +55,7 @@ object LumusRegulatorBlock: Block(
         if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusRegulator) {
-            be.unsetTarget()
+//            be.unsetTarget()
         }
         super.onBlockRemoved(state, world, pos, newState, moved)
     }

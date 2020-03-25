@@ -26,9 +26,14 @@ repositories {
         url = "http://server.bbkr.space:8081/artifactory/libs-release"
     }
     maven {
+        url = "https://dl.bintray.com/spinnery/Spinnery"
+        name = "Spinnery Bintray"
+    }
+    maven {
         name = "Jitpack"
         url = "https://jitpack.io"
     }
+    mavenCentral()
 }
 
 dependencies {
@@ -57,12 +62,13 @@ dependencies {
     include "io.github.cottonmc:LibGui:${project.libgui_version}"
 
     // Spinnery for containers / screens
-    modImplementation "com.github.vini2003:Spinnery:${project.spinnery_version}"
-    include "com.github.vini2003:Spinnery:${project.spinnery_version}"
+    modImplementation "com.github.vini2003:spinnery:${project.spinnery_version}"
+    include "com.github.vini2003:spinnery:${project.spinnery_version}"
 
     // For Unit Tests (currently not used, but will be soon)
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
 
 processResources {

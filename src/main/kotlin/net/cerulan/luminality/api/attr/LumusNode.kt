@@ -1,10 +1,10 @@
 package net.cerulan.luminality.api.attr
 
-class LumusNode (_mode: LumusNodeMode) {
+import net.cerulan.luminality.api.LumusPower
 
-    var radiance: Int = 0
-    var flow: Int = 0
-    val mode: LumusNodeMode = _mode
+open class LumusNode {
+
+    val power = LumusPower(0, 0)
     var attachRange: Float = 0.5f
 
 }
