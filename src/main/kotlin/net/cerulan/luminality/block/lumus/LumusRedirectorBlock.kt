@@ -5,7 +5,6 @@ import alexiil.mc.lib.attributes.AttributeProvider
 import net.cerulan.luminality.LuminalityUtil
 import net.cerulan.luminality.api.attr.LumusPumpMarker
 import net.cerulan.luminality.block.entity.LumusRedirector
-//import net.cerulan.luminality.block.entity.LumusRedirector
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockEntityProvider
@@ -95,7 +94,7 @@ object LumusRedirectorBlock : Block(
             )
         } catch (ex: Exception) {
             ex.printStackTrace()
-            return defaultState.with(LumusPumpBlock.Props.input, ctx.side.opposite)
+            return defaultState.with(LumusPumpBlock.Props.input, ctx.side.opposite)//import net.cerulan.luminality.block.entity.LumusRedirector
         }
     }
 
