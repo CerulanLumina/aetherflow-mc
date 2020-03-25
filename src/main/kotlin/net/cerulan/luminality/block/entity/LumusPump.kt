@@ -5,8 +5,6 @@ import net.cerulan.luminality.api.LuminalityAttributes
 import net.cerulan.luminality.api.client.BeamRenderBE
 import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.cerulan.luminality.lumus.BeamHandler
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -21,8 +19,11 @@ class LumusPump(
     blockEntityType: BlockEntityType<*> = LuminalityBlocks.BlockEntities.lumusPumpEntity) : BlockEntity(blockEntityType), Tickable,
     BlockEntityClientSerializable, BeamRenderBE {
 
-    val range = 16
-    val beamHandler = BeamHandler(this, null, range, pos, {
+    companion object {
+        val range = 16
+    }
+
+    private val beamHandler = BeamHandler(this, null, range, pos, {
         world!!.setBlockState(pos, cachedState.with(LumusPumpBlock.Props.valid, it))
         sync()
     })
@@ -34,41 +35,6 @@ class LumusPump(
             beamHandler.startBlockPos = pos
         }
     }
-
-//    protected open fun updateCachedRange() {
-//        val builder = ImmutableList.builder<BlockPos>()
-//        for (i in 1..range) {
-//            builder.add(pos.offset(outputDirection, i))
-//        }
-//        cachedRanged = builder.build()
-//    }
-
-//    var direction: Direction? = null
-//        protected set(value) {
-//            field = value
-//            if (value != null)
-//                updateCachedRange()
-//        }
-
-//    lateinit var cachedRanged: ImmutableList<BlockPos>
-//        protected set
-
-//    open var active = false
-//        protected set(value) {
-//            field = value
-//            if (LuminalityAttributes.lumusPump.getFirstOrNull(world!!, pos) != null)
-//                world!!.setBlockState(pos, world!!.getBlockState(pos).with(LumusPumpBlock.Props.valid, field))
-//        }
-
-//    open var target: BlockPos? = null
-//        protected set
-
-//    protected open fun getInputNode(world: World, pos: BlockPos, direction: Direction): LumusNode? {
-//        return LuminalityAttributes.lumusNode.getFirstOrNull(world, pos.offset(direction), SearchOptions.inDirection(direction.opposite))
-//    }
-
-//    open val outputDirection: Direction?
-//        get() = direction?.opposite
 
     override fun tick() {
         if (world!!.isClient) return

@@ -1,16 +1,9 @@
 package net.cerulan.luminality.client.render.beam
 
-import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.client.util.math.Rotation3
-import net.minecraft.client.util.math.Rotation3Helper
 import net.minecraft.client.util.math.Vector3f
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3d
-import kotlin.math.PI
-import kotlin.math.sqrt
 
 object BeamRenderHelper {
 
