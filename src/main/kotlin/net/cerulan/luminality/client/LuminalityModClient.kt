@@ -23,6 +23,7 @@ object LuminalityModClient : ClientModInitializer {
         }
 
         BeamRenderAPI.registerDefaultBeamRenderer(LuminalityBlocks.BlockEntities.lumusPumpEntity)
+        BeamRenderAPI.registerDefaultBeamRenderer(LuminalityBlocks.BlockEntities.lumusRedirectorEntity)
 
         ScreenProviderRegistry.INSTANCE.registerFactory(
             Identifier(

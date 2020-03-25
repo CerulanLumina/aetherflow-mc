@@ -58,24 +58,8 @@ object LumusRedirectorBlock : Block(
         list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
         if (be is LumusRedirector && list.searchDirection == state[LumusPumpBlock.Props.input]) {
-//            list.offer(be.lumusSink)
+            list.offer(be.inputSink)
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    override fun onBlockRemoved(
-        state: BlockState,
-        world: World,
-        pos: BlockPos,
-        newState: BlockState,
-        moved: Boolean
-    ) {
-        if (newState.block == this || world.isClient) return
-        val be = world.getBlockEntity(pos)
-        if (be is LumusRedirector) {
-//            be.unsetTarget()
-        }
-        super.onBlockRemoved(state, world, pos, newState, moved)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
@@ -99,6 +83,22 @@ object LumusRedirectorBlock : Block(
     }
 
     override fun createBlockEntity(view: BlockView) = LumusRedirector()
+
+    @SuppressWarnings("deprecation")
+    override fun onBlockRemoved(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        newState: BlockState,
+        moved: Boolean
+    ) {
+        if (newState.block == this || world.isClient) return
+        val be = world.getBlockEntity(pos)
+        if (be is LumusRedirector) {
+            be.onBroken()
+        }
+        super.onBlockRemoved(state, world, pos, newState, moved)
+    }
 
     override fun getOutlineShape(
         state: BlockState,
