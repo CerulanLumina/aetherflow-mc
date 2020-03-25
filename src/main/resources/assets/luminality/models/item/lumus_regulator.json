@@ -2,20 +2,28 @@
 	"parent": "luminality:block/lumus_regulator/lumus_regulator",
 	"display": {
 		"firstperson_righthand": {
-			"translation": [3, 2, 0]
+			"translation": [3, 2, 0],
+			"rotation": [345, 0, 0],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"thirdperson_righthand": {
-			"translation": [3, 2, 0]
+			"translation": [3, 2, 0],
+			"rotation": [345, 0, 0],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"firstperson_lefthand": {
-			"translation": [3, 2, 0]
+			"translation": [3, 2, 0],
+			"rotation": [345, 0, 0],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"thirdperson_lefthand": {
-			"translation": [3, 2, 0]
+			"translation": [3, 2, 0],
+			"rotation": [345, 0, 0],
+			"scale": [0.8, 0.8, 0.8]
 		},
 		"gui": {
-			"translation": [3, 0, 0],
-			"scale": [1.25, 1.25, 1.25],
+			"translation": [1, 0, 0],
+			"scale": [0.9, 0.9, 0.9],
 			"rotation": [15, 45, 0]
 		}
 	}
