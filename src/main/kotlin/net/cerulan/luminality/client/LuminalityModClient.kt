@@ -24,18 +24,6 @@ object LuminalityModClient : ClientModInitializer {
 
         BeamRenderAPI.registerDefaultBeamRenderer(LuminalityBlocks.BlockEntities.lumusPumpEntity)
 
-//        BlockEntityRendererRegistry.INSTANCE.register(LuminalityBlocks.BlockEntities.lumusPumpEntity) {
-//                dispatcher -> LumusPumpRenderer(dispatcher)
-//        }
-//
-//        BlockEntityRendererRegistry.INSTANCE.register(LuminalityBlocks.BlockEntities.lumusRedirectorEntity) {
-//                dispatcher -> LumusRedirectorRenderer(dispatcher)
-//        }
-//
-//        BlockEntityRendererRegistry.INSTANCE.register(LuminalityBlocks.BlockEntities.lumusRegulatorEntity) {
-//                dispatcher -> LumusRegulatorRenderer(dispatcher)
-//        }
-
         ScreenProviderRegistry.INSTANCE.registerFactory(
             Identifier(
                 "luminality",

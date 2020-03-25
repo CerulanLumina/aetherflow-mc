@@ -1,5 +1,6 @@
 package net.cerulan.luminality.client.render.beam
 
+import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.client.util.math.Rotation3
@@ -14,47 +15,29 @@ import kotlin.math.sqrt
 object BeamRenderHelper {
 
     private val color = floatArrayOf(0f, 0.8f, 1f, 1f)
-//    private val matrixStack = MatrixStack()
 
-    fun renderLumusBeam(
+    fun renderLumusBeamAbsolute(
         matrixStack: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
         from: Vec3d,
-        toas: Vec3d,
+        to: Vec3d,
         time: Long,
         tickDelta: Float
     ) {
         matrixStack.push()
-
-        val to = Vec3d(toas.x + 3, toas.y + 3, toas.z)
-
-        matrixStack.translate(0.5, 0.5 , 0.5)
-        val a = from.crossProduct(to)
-        val w = sqrt(from.lengthSquared() * to.lengthSquared() + from.dotProduct(to)).toFloat()
-        val fromf = Vector3f(from.x.toFloat(), from.y.toFloat(), from.z.toFloat())
-        val tof = Vector3f(to.x.toFloat(), to.y.toFloat(), to.z.toFloat())
-        tof.subtract(fromf)
-
-        val x = PI.toFloat() / 2 - MathHelper.atan2(tof.y.toDouble(), tof.z.toDouble()).toFloat()
-        val y = MathHelper.atan2(tof.x.toDouble(), tof.z.toDouble()).toFloat()
-        val z = MathHelper.atan2(tof.x.toDouble(), tof.y.toDouble()).toFloat()
-
-
-        val rotation = Quaternion(x, 0f, -y, false)
-//        matrixStack.multiply(rotation)
-
-
-        val range = from.distanceTo(to)
-
-
+        matrixStack.translate(from.x, from.y , from.z)
+        val offset = to.subtract(from)
         BeamRenderer.renderLumusBeamPostTransform(
             matrixStack,
             vertexConsumerProvider,
+            null,
+            Vector3f(offset.x.toFloat(), offset.y.toFloat(), offset.z.toFloat()),
             tickDelta,
             time,
-            range.toFloat(),
-            color
+            color,
+            0.2f
         )
         matrixStack.pop()
     }
+
 }

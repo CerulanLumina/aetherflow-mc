@@ -4,101 +4,79 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.entity.BeaconBlockEntityRenderer
-import net.minecraft.client.util.math.*
+import net.minecraft.client.util.math.Matrix3f
+import net.minecraft.client.util.math.Matrix4f
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.util.math.Vector3f
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.*
+import net.minecraft.util.math.MathHelper
+import kotlin.math.sqrt
 
 object BeamRenderer {
+    private val defaultBeamTex = Identifier("luminality:textures/item/shimmering_ingot.png")
 
-     internal fun renderLumusBeamPostTransform(
+    fun renderLumusBeamPostTransform(
         matrixStack: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
+        texture: Identifier?,
+        targetPosOffset: Vector3f,
         tickDelta: Float,
         time: Long,
-        range: Float,
-        color: FloatArray
+        color: FloatArray,
+        size: Float
     ) {
         renderLightBeam(
             matrixStack,
             vertexConsumerProvider,
-            BeaconBlockEntityRenderer.BEAM_TEX,
+            texture ?: defaultBeamTex,
+            targetPosOffset,
             tickDelta,
-            1.0f,
             time,
-            range,
             color,
-            0.2f
+            size
         )
     }
 
     private fun renderLightBeam(
         matrixStack: MatrixStack,
         vertexConsumerProvider: VertexConsumerProvider,
-        identifier: Identifier?,
+        identifier: Identifier,
+        targetPosOffset: Vector3f,
+        // unused, future plans?
         tickDelta: Float,
-        speed: Float,
         time: Long,
-        range: Float,
         color: FloatArray,
         size: Float
     ) {
+
         matrixStack.push()
-        val texOffset = Math.floorMod(time, 40L).toFloat() + tickDelta
-        val texOffsetNorm = if (range < 0) texOffset else -texOffset
-        val textOffsetFract = MathHelper.fractionalPart(texOffsetNorm * 0.2f - MathHelper.floor(texOffsetNorm * 0.1f).toFloat())
         val colorR = color[0]
         val colorG = color[1]
         val colorB = color[2]
 
-        val v2 = -1.0f + textOffsetFract
-        val v = range * speed * (0.5f / size) + v2
+        val length = targetPosOffset.length()
+
+        val yAngle = MathHelper.atan2(-targetPosOffset.z.toDouble(), targetPosOffset.x.toDouble()).toFloat()
+        val baseDist = MathHelper.sqrt(targetPosOffset.x * targetPosOffset.x + targetPosOffset.z * targetPosOffset.z)
+        val zAngle = MathHelper.atan2(targetPosOffset.y.toDouble(), baseDist.toDouble()).toFloat()
+
+        matrixStack.multiply(Vector3f.POSITIVE_Y.getRadialQuaternion(yAngle))
+        matrixStack.multiply(Vector3f.POSITIVE_Z.getRadialQuaternion(zAngle))
         renderBeam(
             matrixStack,
-            vertexConsumerProvider.getBuffer(RenderLayer.getBeaconBeam(Identifier("luminality:textures/item/shimmering_ingot.png"), true)),
+            // TODO - use a better render layer (custom?)
+            vertexConsumerProvider.getBuffer(RenderLayer.getBeaconBeam(identifier, true)),
             colorR,
             colorG,
             colorB,
             color[3],
-            0f,
-            2f,
-            0.0f,
-            size,
-            size,
-            0.0f,
-            -size,
-            0.0f,
-            0.0f,
-            -0.2f,
-            0.0f,
-            1.0f,
-            v,
-            v2
+            length,
+            size
         )
-//        renderBeam(
-//            matrixStack,
-//            vertexConsumerProvider.getBuffer(RenderLayer.getBeaconBeam(identifier, true)),
-//            colorR,
-//            colorG,
-//            colorB,
-//            color[3],
-//            0f,
-//            range,
-//            0.0f,
-//            size,
-//            size,
-//            0.0f,
-//            -size,
-//            0.0f,
-//            0.0f,
-//            -size,
-//            0.0f,
-//            1.0f,
-//            v,
-//            v2
-//        )
         matrixStack.pop()
     }
+
+    private fun Vector3f.length(): Float = sqrt(this.x * this.x + this.y * this.y + this.z * this.z)
 
     private fun renderBeam(
         matrixStack: MatrixStack,
@@ -107,41 +85,33 @@ object BeamRenderer {
         green: Float,
         blue: Float,
         alpha: Float,
-        y2: Float,
-        y: Float,
-        x2: Float,
-        z2: Float,
-        n: Float,
-        o: Float,
-        x: Float,
-        z: Float,
-        r: Float,
-        s: Float,
-        u2: Float,
-        u: Float,
-        v: Float,
-        v2: Float
+        length: Float,
+        size: Float
     ) {
         val entry = matrixStack.peek()
         val matrix4f = entry.model
         val matrix3f = entry.normal
 
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0.2f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0.2f, 0f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0.2f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0.2f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0f, 0f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0.2f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0.2f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0f, 0f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0.2f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0.2f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0f, 0f, 1f)
+        val lowBound = -size / 2f
+        val highBound = size / 2f
+        val texRepeat = 4 * length
+
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, highBound, highBound, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, lowBound, highBound, 0f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, lowBound, highBound, texRepeat, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, highBound, highBound, texRepeat, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, lowBound, lowBound, texRepeat, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, highBound, lowBound, texRepeat, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, highBound, lowBound, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, lowBound, lowBound, 0f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, highBound, lowBound, texRepeat, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, highBound, highBound, texRepeat, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, highBound, highBound, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, highBound, lowBound, 0f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, lowBound, lowBound, texRepeat, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, length, lowBound, highBound, texRepeat, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, lowBound, highBound, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f, lowBound, lowBound, 0f, 1f)
     }
 
     private fun vertex(

@@ -7,11 +7,14 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 
 @Environment(EnvType.CLIENT)
 object BeamRenderAPI {
+
+    internal val receiverOverrideMap: HashMap<Identifier, (be: BlockEntity) -> Vec3d?> = HashMap()
 
     fun <T> registerDefaultBeamRenderer(type: BlockEntityType<T>, startSupplier: (be: T) -> Vec3d?, targetSupplier: (be: T) -> Vec3d?)
             where T : BlockEntity {
@@ -24,9 +27,15 @@ object BeamRenderAPI {
 
     fun <T> registerDefaultBeamRenderer(type: BlockEntityType<T>)
             where T: BlockEntity, T: BeamRenderBE {
-        registerDefaultBeamRenderer(type, {be -> be.startPos}, {be -> be.targetPos})
+        registerDefaultBeamRenderer(type, {be -> be.startPos?.add(0.5, 0.5, 0.5)}, {be -> be.targetPos})
     }
 
+    fun registerIncomingBeamPosOverride(blockEntityTypeId: Identifier, handler: (be: BlockEntity) -> Vec3d?) {
+        receiverOverrideMap[blockEntityTypeId] = handler
+    }
 
+    fun hasIncomingBeamOverride(blockEntityTypeId: Identifier) = receiverOverrideMap.containsKey(blockEntityTypeId)
+
+    fun getIncomingBeamOverride(blockEntityTypeId: Identifier): ((be: BlockEntity) -> Vec3d?)? = receiverOverrideMap[blockEntityTypeId]
 
 }

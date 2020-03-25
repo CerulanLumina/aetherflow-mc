@@ -116,9 +116,7 @@ class LumusPump(
     override var targetPos: Vec3d? = null
 
     override val startPos: Vec3d?
-        get() {
-            return pos.toVec3d()
-        }
+        get() = pos.toVec3d()
 
 
 }
