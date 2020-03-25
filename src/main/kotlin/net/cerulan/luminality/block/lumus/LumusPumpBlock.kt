@@ -60,8 +60,7 @@ object LumusPumpBlock :
         if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusPump) {
-
-//            be.unsetTarget()
+            be.onBroken()
         }
         super.onBlockRemoved(state, world, pos, newState, moved)
     }
