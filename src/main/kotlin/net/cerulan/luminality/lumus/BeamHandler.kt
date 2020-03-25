@@ -14,6 +14,7 @@ open class BeamHandler(
     var range: Int,
     var startBlockPos: BlockPos,
     var onValidChange: (Boolean) -> Unit,
+    var syncCallback: () -> Unit,
     defaultDir: Direction? = null
 ) {
 
@@ -21,7 +22,8 @@ open class BeamHandler(
         refreshCachedPos()
     }
 
-    open val sinkInsertDirection = direction?.opposite
+    open val sinkInsertDirection
+        get() = direction?.opposite
 
     protected open val cachedPos = ArrayList<BlockPos>(range)
 
@@ -40,12 +42,12 @@ open class BeamHandler(
     open fun tick() {
         // We are already active, inputNode is still nonnull, and we have a cached sink
         if (active && inputNode != null && target.cachedSink != null) {
-            val sink = LuminalityAttributes.lumusSink.getFirstOrNull(target.world!!, target.blockPos!!)
+            val sink = LuminalityAttributes.lumusSink.getFirstOrNull(target.world!!, target.blockPos!!, SearchOptions.inDirection(sinkInsertDirection))
             if (target.cachedSink != sink)
                 target.blockPos = target.blockPos // refresh cachedSink
 
             if (sink != null && cachedPos.first { pos -> !target.world!!.getBlockState(pos).isAir } == target.blockPos) {
-                inputNode!!.power.copy(sink.power)
+                if (inputNode!!.power.copy(sink.power)) syncCallback()
             } else {
                 unsetTarget()
             }
