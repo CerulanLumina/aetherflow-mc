@@ -50,7 +50,7 @@ object BeamRenderer {
         val colorR = color[0]
         val colorG = color[1]
         val colorB = color[2]
-//        matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(time * 2.25f - 45.0f))
+
         val v2 = -1.0f + textOffsetFract
         val v = range * speed * (0.5f / size) + v2
         renderBeam(
@@ -125,172 +125,23 @@ object BeamRenderer {
         val entry = matrixStack.peek()
         val matrix4f = entry.model
         val matrix3f = entry.normal
-//        renderSide(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha,
-//            0f,
-//            0.2f,
-//            0f,
-//            0.2f,
-//            2f,
-//            0.2f,
-//            8f,
-//            0f,
-//            0f,
-//            1f
-//        )
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 0f, 0.2f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 0f, 0.2f, 0f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 2f, 0.2f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 2f, 0.2f, 8f, 0f)
 
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 0f, 0f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 0f, 0f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 2f, 0f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 2f, 0f, 0f, 1f)
-
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 0f, 0f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 0f, 0.2f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 2f, 0.2f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.2f, 2f, 0f, 0f, 1f)
-
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 2f, 0f, 8f, 1f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 2f, 0.2f, 8f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 0f, 0.2f, 0f, 0f)
-        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0.0f, 0f, 0f, 0f, 1f)
-
-//        renderSide(
-//            matrix4f,
-//            matrix3f,
-//            vertexConsumer,
-//            red,
-//            green,
-//            blue,
-//            alpha,
-//            y2,
-//            y,
-//            r,
-//            s,
-//            x,
-//            z,
-//            u2,
-//            u,
-//            v,
-//            v2
-//        )
-//        renderSide(
-//            matrix4f,
-//            matrix3f,
-//            vertexConsumer,
-//            red,
-//            green,
-//            blue,
-//            alpha,
-//            y2,
-//            y,
-//            n,
-//            o,
-//            r,
-//            s,
-//            u2,
-//            u,
-//            v,
-//            v2
-//        )
-//        renderSide(
-//            matrix4f,
-//            matrix3f,
-//            vertexConsumer,
-//            red,
-//            green,
-//            blue,
-//            alpha,
-//            y2,
-//            y,
-//            x,
-//            z,
-//            x2,
-//            z2,
-//            u2,
-//            u,
-//            v,
-//            v2
-//        )
-    }
-
-    private fun renderSide(
-        matrix4f: Matrix4f,
-        matrix3f: Matrix3f,
-        vertexConsumer: VertexConsumer,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float,
-        y2: Float,
-        y: Float,
-        x: Float,
-        z: Float,
-        x2: Float,
-        z2: Float,
-        u2: Float,
-        u: Float,
-        v: Float,
-        v2: Float
-    ) {
-        vertex(
-            matrix4f,
-            matrix3f,
-            vertexConsumer,
-            red,
-            green,
-            blue,
-            alpha,
-            y,
-            x,
-            z,
-            u,
-            v
-        )
-        vertex(
-            matrix4f,
-            matrix3f,
-            vertexConsumer,
-            red,
-            green,
-            blue,
-            alpha,
-            y2,
-            x,
-            z,
-            u,
-            v2
-        )
-        vertex(
-            matrix4f,
-            matrix3f,
-            vertexConsumer,
-            red,
-            green,
-            blue,
-            alpha,
-            y2,
-            x2,
-            z2,
-            u2,
-            v2
-        )
-        vertex(
-            matrix4f,
-            matrix3f,
-            vertexConsumer,
-            red,
-            green,
-            blue,
-            alpha,
-            y,
-            x2,
-            z2,
-            u2,
-            v
-        )
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0.2f, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0.2f, 0f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0.2f, 8f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0.2f, 8f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0f, 8f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0f, 8f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0f, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0f, 0f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0f, 8f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,0.1f, 0.2f, 8f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0.2f, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,0.1f, 0f, 0f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0f, 8f, 1f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 2f,-0.1f, 0.2f, 8f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0.2f, 0f, 0f)
+        vertex(matrix4f, matrix3f, vertexConsumer, red, green, blue, alpha, 0f,-0.1f, 0f, 0f, 1f)
     }
 
     private fun vertex(
@@ -301,8 +152,8 @@ object BeamRenderer {
         green: Float,
         blue: Float,
         alpha: Float,
-        y: Float,
         x: Float,
+        y: Float,
         z: Float,
         u: Float,
         v: Float
