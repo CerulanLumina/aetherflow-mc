@@ -1,230 +1,296 @@
 {
-  "variants": {
-    "output=0,input=north,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 180
+  "multipart": [
+    {
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector"
+      }
     },
-    "output=0,input=north,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 180
+    {
+      "when": {
+        "input": "north",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong"
+      }
     },
-    "output=0,input=west,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 180,
-      "x": 90
+    {
+      "when": {
+        "input": "east",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "y": 90
+      }
     },
-    "output=0,input=west,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 180,
-      "x": 90
+    {
+      "when": {
+        "input": "south",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "y": 180
+      }
     },
-    "output=0,input=south,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 90,
-      "x": 180
+    {
+      "when": {
+        "input": "west",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "y": 270
+      }
     },
-    "output=0,input=south,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 90,
-      "x": 180
+    {
+      "when": {
+        "input": "up",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "x": 270
+      }
     },
-    "output=0,input=east,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 90
+    {
+      "when": {
+        "input": "down",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "x": 90
+      }
     },
-    "output=0,input=east,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 0,
-      "x": 90
+    {
+      "when": {
+        "output": "north",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong"
+      }
     },
-    "output=0,input=up,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 90
+    {
+      "when": {
+        "output": "east",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "y": 90
+      }
     },
-    "output=0,input=up,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 90
+    {
+      "when": {
+        "output": "south",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "y": 180
+      }
     },
-    "output=0,input=down,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 270
+    {
+      "when": {
+        "output": "west",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "y": 270
+      }
     },
-    "output=0,input=down,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 270
+    {
+      "when": {
+        "output": "up",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "x": 270
+      }
     },
-    "output=1,input=north,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 90,
-      "y": 270
+    {
+      "when": {
+        "output": "down",
+        "valid": "true"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong",
+        "x": 90
+      }
     },
-    "output=1,input=north,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 90,
-      "y": 270
+    {
+      "when": {
+        "input": "north",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive"
+      }
     },
-    "output=1,input=west,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 180,
-      "x": 180
+    {
+      "when": {
+        "input": "east",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "y": 90
+      }
     },
-    "output=1,input=west,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 180,
-      "x": 180
+    {
+      "when": {
+        "input": "south",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "y": 180
+      }
     },
-    "output=1,input=south,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 90,
-      "x": 90
+    {
+      "when": {
+        "input": "west",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "y": 270
+      }
     },
-    "output=1,input=south,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 90,
-      "x": 90
+    {
+      "when": {
+        "input": "up",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "x": 270
+      }
     },
-    "output=1,input=east,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 0,
-      "x": 0
+    {
+      "when": {
+        "input": "down",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "x": 90
+      }
     },
-    "output=1,input=east,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 0,
-      "x": 0
+    {
+      "when": {
+        "output": "north",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive"
+      }
     },
-    "output=1,input=up,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 90
+    {
+      "when": {
+        "output": "east",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "y": 90
+      }
     },
-    "output=1,input=up,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 90,
-      "y": 90
+    {
+      "when": {
+        "output": "south",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "y": 180
+      }
     },
-    "output=1,input=down,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 270,
-      "y": 90
+    {
+      "when": {
+        "output": "west",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "y": 270
+      }
     },
-    "output=1,input=down,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 270,
-      "y": 90
+    {
+      "when": {
+        "output": "up",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "x": 270
+      }
     },
-    "output=2,input=north,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 180
+    {
+      "when": {
+        "output": "down",
+        "valid": "false"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_prong_inactive",
+        "x": 90
+      }
     },
-    "output=2,input=north,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 180
+    {
+      "when": {
+        "input": "up|down",
+        "output": "north|south"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
+        "x": 90,
+        "y": 90
+      }
     },
-    "output=2,input=west,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 180,
-      "x": 270
+    {
+      "when": {
+        "input": "up|down",
+        "output": "east|west"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
+        "x": 90
+      }
     },
-    "output=2,input=west,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 180,
-      "x": 270
+    {
+      "when": {
+        "input": "north|south",
+        "output": "up|down"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
+        "x": 90,
+        "y": 90
+      }
     },
-    "output=2,input=south,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 90,
-      "x": 0
+    {
+      "when": {
+        "input": "east|west",
+        "output": "up|down"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
+        "x": 90
+      }
     },
-    "output=2,input=south,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 90,
-      "x": 0
-    },
-    "output=2,input=east,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 270
-    },
-    "output=2,input=east,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 270
-    },
-    "output=2,input=up,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 180,
-      "x": 90
-    },
-    "output=2,input=up,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 180,
-      "x": 90
-    },
-    "output=2,input=down,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 270,
-      "y": 180
-    },
-    "output=2,input=down,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 270,
-      "y": 180
-    },
-    "output=3,input=north,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 270,
-      "y": 270
-    },
-    "output=3,input=north,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 270,
-      "y": 270
-    },
-    "output=3,input=west,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 180,
-      "x": 0
-    },
-    "output=3,input=west,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 180,
-      "x": 0
-    },
-    "output=3,input=south,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "y": 90,
-      "x": 270
-    },
-    "output=3,input=south,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "y": 90,
-      "x": 270
-    },
-    "output=3,input=east,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 180
-    },
-    "output=3,input=east,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 180
-    },
-    "output=3,input=up,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 90,
-      "y": 270
-    },
-    "output=3,input=up,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 90,
-      "y": 270
-    },
-    "output=3,input=down,valid=true": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector",
-      "x": 270,
-      "y": 270
-    },
-    "output=3,input=down,valid=false": {
-      "model": "luminality:block/lumus_redirector/lumus_redirector_inactive",
-      "x": 270,
-      "y": 270
+    {
+      "when": {
+        "input": "north|south|east|west",
+        "output": "north|south|east|west"
+      },
+      "apply": {
+        "model": "luminality:block/lumus_redirector/lumus_redirector_caps"
+      }
     }
-  }
+  ]
 }

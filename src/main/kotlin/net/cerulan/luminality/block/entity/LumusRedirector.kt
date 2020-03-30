@@ -41,16 +41,16 @@ class LumusRedirector : BlockEntity(LuminalityBlocks.BlockEntities.lumusRedirect
     }
 
     override fun tick() {
-        if (world!!.isClient) return
-        if (inputSink.power.copy(redirectSource.power)) sync()
-        val outDir = LuminalityUtil.getDirectionRightAngle(
-            cachedState[LumusRedirectorBlock.Props.output],
-            cachedState[LumusPumpBlock.Props.input]
-        )
-        if (beamHandler.direction !== outDir) {
-            beamHandler.direction = outDir
-        }
-        beamHandler.tick()
+//        if (world!!.isClient) return
+//        if (inputSink.power.copy(redirectSource.power)) sync()
+//        val outDir = LuminalityUtil.getDirectionRightAngle(
+//            cachedState[LumusRedirectorBlock.Props.output],
+//            cachedState[LumusPumpBlock.Props.input]
+//        )
+//        if (beamHandler.direction !== outDir) {
+//            beamHandler.direction = outDir
+//        }
+//        beamHandler.tick()
     }
 
     fun onBroken() {

@@ -10,36 +10,6 @@ import kotlin.math.abs
 
 object LuminalityUtil {
 
-    fun getDirectionRightAngle(index: Int, direction: Direction): Direction {
-        val i = index % 4
-        val axis = Direction.Axis.values().filter { axis -> axis != direction.axis }[i % 2]
-        return Direction.from(axis, Direction.AxisDirection.values()[i / 2])
-    }
-
-    fun getDirectionRightAngleIndex(input: Direction, output: Direction): Int {
-        return dirToIndex[input]!![output]!!
-    }
-
-    private val dirToIndex: EnumMap<Direction, EnumMap<Direction, Int>> = EnumMap(Direction::class.java)
-
-    init {
-        for (inD in Direction.values()) {
-            for (i in 0..3) {
-                val outD = getDirectionRightAngle(i, inD)
-                dirToIndex.compute(inD) { _,map ->
-                    if (map == null) {
-                        val nmap = EnumMap<Direction, Int>(Direction::class.java)
-                        nmap[outD] = i
-                        nmap
-                    } else {
-                        map[outD] = i
-                        map
-                    }
-                }
-            }
-        }
-    }
-
     private val topTri = arrayOf(Vec2f(0f, 0f), Vec2f(1f, 0f), Vec2f(0.5f, 0.5f))
     private val leftTri = arrayOf(Vec2f(0f, 0f), Vec2f(0f, 1f), Vec2f(0.5f, 0.5f))
     private val rightTri = arrayOf(Vec2f(1f, 0f), Vec2f(1f, 1f), Vec2f(0.5f, 0.5f))
@@ -71,6 +41,50 @@ object LuminalityUtil {
         }
     }
 
+    fun Direction.rotateRelativeClockwise(normal: Direction): Direction {
+        return when (normal.axis) {
+            Direction.Axis.X -> if (normal == Direction.WEST) {
+                when (this) {
+                    Direction.UP -> Direction.SOUTH
+                    Direction.SOUTH -> Direction.DOWN
+                    Direction.DOWN -> Direction.NORTH
+                    Direction.NORTH -> Direction.UP
+                    else -> throw IllegalStateException("Cannot rotate normal axis")
+                }
+            } else {
+                when (this) {
+                    Direction.UP -> Direction.NORTH
+                    Direction.NORTH -> Direction.DOWN
+                    Direction.DOWN -> Direction.SOUTH
+                    Direction.SOUTH -> Direction.UP
+                    else -> throw IllegalStateException("Cannot rotate normal axis")
+                }
+            }
+            Direction.Axis.Y -> if (normal == Direction.UP) {
+                this.rotateYClockwise()
+            } else {
+                this.rotateYCounterclockwise()
+            }
+            Direction.Axis.Z -> if (normal == Direction.SOUTH) {
+                when (this) {
+                    Direction.UP -> Direction.EAST
+                    Direction.EAST -> Direction.DOWN
+                    Direction.DOWN -> Direction.WEST
+                    Direction.WEST -> Direction.UP
+                    else -> throw IllegalStateException("Cannot rotate normal axis")
+                }
+            } else {
+                when (this) {
+                    Direction.UP -> Direction.WEST
+                    Direction.WEST -> Direction.DOWN
+                    Direction.DOWN -> Direction.EAST
+                    Direction.EAST -> Direction.UP
+                    else -> throw IllegalStateException("Cannot rotate normal axis")
+                }
+            }
+        }
+    }
+
     private fun sign(points: Array<Vec2f>): Float {
         return (points[0].x - points[2].x) * (points[1].y - points[2].y) - (points[1].x - points[2].x) * (points[0].y - points[2].y)
     }
@@ -94,21 +108,24 @@ object LuminalityUtil {
             if (!visited.contains(s)) {
                 visited.add(s)
             }
-            getSurroundingPos(s).filter(predicate).filter{ bp -> !visited.contains(bp) } .forEach { bp -> stack.push(bp) }
+            getSurroundingPos(s).filter(predicate).filter { bp -> !visited.contains(bp) }
+                .forEach { bp -> stack.push(bp) }
         }
         return ImmutableSet.copyOf(visited)
     }
 
     fun getSurroundingPos(pos: BlockPos): Array<BlockPos> {
-        return Array(6) { i -> when (i) {
-            0 -> pos.down()
-            1 -> pos.up()
-            2 -> pos.north()
-            3 -> pos.south()
-            4 -> pos.west()
-            5 -> pos.east()
-            else -> pos
-        } }
+        return Array(6) { i ->
+            when (i) {
+                0 -> pos.down()
+                1 -> pos.up()
+                2 -> pos.north()
+                3 -> pos.south()
+                4 -> pos.west()
+                5 -> pos.east()
+                else -> pos
+            }
+        }
     }
 
     fun getDirectionPos(from: BlockPos, to: BlockPos): Direction? {
@@ -122,8 +139,7 @@ object LuminalityUtil {
         } else if (abs(yd) > abs(xd) && abs(yd) > abs(zd)) {
             if (yd < 0) Direction.UP
             else Direction.DOWN
-        }
-        else if (abs(zd) > abs(xd) && abs(zd) > abs(yd)) {
+        } else if (abs(zd) > abs(xd) && abs(zd) > abs(yd)) {
             if (zd < 0) Direction.NORTH
             else Direction.SOUTH
         } else null
@@ -140,7 +156,11 @@ fun CompoundTag.putVec3d(key: String, vec3d: Vec3d) {
 }
 
 fun CompoundTag.getVec3d(key: String): Vec3d? {
-    val inner: CompoundTag? = if (this.contains("target")) { this.getCompound(key) } else { null }
+    val inner: CompoundTag? = if (this.contains("target")) {
+        this.getCompound(key)
+    } else {
+        null
+    }
     return inner?.let {
         val x = it.getDouble("x")
         val y = it.getDouble("y")

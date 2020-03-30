@@ -3,6 +3,7 @@ package net.cerulan.luminality.block.lumus
 import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
 import net.cerulan.luminality.LuminalityUtil
+import net.cerulan.luminality.LuminalityUtil.rotateRelativeClockwise
 import net.cerulan.luminality.api.attr.LumusPumpMarker
 import net.cerulan.luminality.block.entity.LumusRedirector
 import net.fabricmc.fabric.api.block.FabricBlockSettings
@@ -14,7 +15,7 @@ import net.minecraft.entity.EntityContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.IntProperty
+import net.minecraft.state.property.DirectionProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
@@ -25,7 +26,9 @@ import net.minecraft.world.World
 import java.util.*
 
 object LumusRedirectorBlock : Block(
-    FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
+    FabricBlockSettings.of(Material.GLASS)
+        .nonOpaque()
+        .breakByHand(true).strength(
         0.5f,
         10f
     ).sounds(BlockSoundGroup.METAL).build()
@@ -33,7 +36,7 @@ object LumusRedirectorBlock : Block(
     BlockEntityProvider {
 
     object Props {
-        val output = IntProperty.of("output", 0, 3)!!
+        val output = DirectionProperty.of("output") { true }
     }
 
     private val outlineMap: EnumMap<Direction, VoxelShape> = EnumMap(Direction::class.java)
@@ -45,7 +48,7 @@ object LumusRedirectorBlock : Block(
         outlineMap[Direction.WEST] = VoxelShapes.cuboid(0.0625, 0.25, 0.25, 0.625, 0.75, 0.75)
         outlineMap[Direction.NORTH] = VoxelShapes.cuboid(0.25, 0.25, 0.0625, 0.75, 0.75, 0.625)
         outlineMap[Direction.SOUTH] = VoxelShapes.cuboid(0.25, 0.25, 1-0.0625, 0.75, 0.75, 1-0.625)
-        defaultState = LumusRedirectorBlock.stateManager.defaultState.with(Props.output, 0)
+        defaultState = LumusRedirectorBlock.stateManager.defaultState.with(Props.output, Direction.DOWN)
             .with(LumusPumpBlock.Props.input, Direction.WEST).with(LumusPumpBlock.Props.valid, false)
 
     }
@@ -63,23 +66,15 @@ object LumusRedirectorBlock : Block(
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+
         val hx = MathHelper.fractionalPart(ctx.hitPos.x)
         val hy = MathHelper.fractionalPart(ctx.hitPos.y)
         val hz = MathHelper.fractionalPart(ctx.hitPos.z)
+
         val input = LuminalityUtil.getDirectionFromHitPos(ctx.side, hx, hy, hz)
-        try {
-            val output = input.rotateYClockwise()
-            return defaultState.with(LumusPumpBlock.Props.input, input).with(
-                Props.output,
-                LuminalityUtil.getDirectionRightAngleIndex(
-                    input,
-                    output
-                )
-            )
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            return defaultState.with(LumusPumpBlock.Props.input, ctx.side.opposite)//import net.cerulan.luminality.block.entity.LumusRedirector
-        }
+        val output = input.rotateRelativeClockwise(ctx.side)
+
+        return defaultState.with(LumusPumpBlock.Props.input, input).with(Props.output, output)
     }
 
     override fun createBlockEntity(view: BlockView) = LumusRedirector()
@@ -92,6 +87,7 @@ object LumusRedirectorBlock : Block(
         newState: BlockState,
         moved: Boolean
     ) {
+
         if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusRedirector) {
@@ -106,9 +102,10 @@ object LumusRedirectorBlock : Block(
         pos: BlockPos,
         ePos: EntityContext
     ): VoxelShape {
+
         val inD = state[LumusPumpBlock.Props.input]
         val input = outlineMap[inD]
-        val output = outlineMap[LuminalityUtil.getDirectionRightAngle(state[Props.output], inD)]
+        val output = outlineMap[state[Props.output]]
 
         return VoxelShapes.union(input, output)
     }
