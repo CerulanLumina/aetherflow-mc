@@ -2,9 +2,10 @@ package net.cerulan.luminality.client
 
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.client.BeamRenderAPI
-//import net.cerulan.luminality.client.blockentityrenderer.LumusPumpRenderer
-//import net.cerulan.luminality.client.blockentityrenderer.LumusRedirectorRenderer
-//import net.cerulan.luminality.client.blockentityrenderer.LumusRegulatorRenderer
+import net.cerulan.luminality.api.client.PreviewRenderAPI
+import net.cerulan.luminality.block.lumus.LumusPumpBlock
+import net.cerulan.luminality.block.lumus.LumusRedirectorBlock
+import net.cerulan.luminality.block.lumus.LumusRegulatorBlock
 import net.cerulan.luminality.client.blockentityrenderer.ShimmerInducerRenderer
 import net.cerulan.luminality.client.gui.LuminalFurnaceScreen
 import net.cerulan.luminality.container.LuminalFurnaceController
@@ -24,6 +25,10 @@ object LuminalityModClient : ClientModInitializer {
 
         BeamRenderAPI.registerDefaultBeamRenderer(LuminalityBlocks.BlockEntities.lumusPumpEntity)
         BeamRenderAPI.registerDefaultBeamRenderer(LuminalityBlocks.BlockEntities.lumusRedirectorEntity)
+
+        PreviewRenderAPI.registerNeedsPreview(LumusPumpBlock)
+        PreviewRenderAPI.registerNeedsPreview(LumusRedirectorBlock)
+        PreviewRenderAPI.registerNeedsPreview(LumusRegulatorBlock)
 
         ScreenProviderRegistry.INSTANCE.registerFactory(
             Identifier(
