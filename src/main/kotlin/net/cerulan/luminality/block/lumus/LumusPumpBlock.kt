@@ -1,11 +1,8 @@
 package net.cerulan.luminality.block.lumus
 
-import net.cerulan.luminality.block.entity.LumusPump
+import net.cerulan.luminality.block.entity.lumus.LumusPump
 import net.fabricmc.fabric.api.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockEntityProvider
-import net.minecraft.block.BlockState
-import net.minecraft.block.Material
+import net.minecraft.block.*
 import net.minecraft.entity.EntityContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.BlockSoundGroup
@@ -20,7 +17,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 object LumusPumpBlock :
-    Block(
+    AbstractGlassBlock(
         FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
             0.5f,
             10f

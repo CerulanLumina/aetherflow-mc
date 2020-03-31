@@ -4,12 +4,9 @@ import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
 import net.cerulan.luminality.LuminalityUtil
 import net.cerulan.luminality.LuminalityUtil.rotateRelativeClockwise
-import net.cerulan.luminality.block.entity.LumusRedirector
+import net.cerulan.luminality.block.entity.lumus.LumusRedirector
 import net.fabricmc.fabric.api.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockEntityProvider
-import net.minecraft.block.BlockState
-import net.minecraft.block.Material
+import net.minecraft.block.*
 import net.minecraft.entity.EntityContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.BlockSoundGroup
@@ -24,7 +21,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.*
 
-object LumusRedirectorBlock : Block(
+object LumusRedirectorBlock : AbstractGlassBlock(
     FabricBlockSettings.of(Material.GLASS)
         .nonOpaque()
         .breakByHand(true).strength(
@@ -76,7 +73,8 @@ object LumusRedirectorBlock : Block(
         return defaultState.with(Props.side1, side1).with(Props.side2, side2)
     }
 
-    override fun createBlockEntity(view: BlockView) = LumusRedirector()
+    override fun createBlockEntity(view: BlockView) =
+        LumusRedirector()
 
     @SuppressWarnings("deprecation")
     override fun onBlockRemoved(

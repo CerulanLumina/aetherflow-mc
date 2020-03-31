@@ -3,7 +3,7 @@ package net.cerulan.luminality.client
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.client.BeamRenderAPI
 import net.cerulan.luminality.api.client.PreviewRenderAPI
-import net.cerulan.luminality.block.entity.LumusRedirector
+import net.cerulan.luminality.block.entity.lumus.LumusRedirector
 import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.cerulan.luminality.block.lumus.LumusRedirectorBlock
 import net.cerulan.luminality.block.lumus.LumusRegulatorBlock

@@ -2,12 +2,9 @@ package net.cerulan.luminality.block.lumus
 
 import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
-import net.cerulan.luminality.block.entity.LumusRegulator
+import net.cerulan.luminality.block.entity.lumus.LumusRegulator
 import net.fabricmc.fabric.api.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockEntityProvider
-import net.minecraft.block.BlockState
-import net.minecraft.block.Material
+import net.minecraft.block.*
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.StateManager
 import net.minecraft.util.math.BlockPos
@@ -15,7 +12,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object LumusRegulatorBlock: Block(
+object LumusRegulatorBlock: AbstractGlassBlock (
     FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
         0.5f,
         10f
@@ -56,6 +53,7 @@ object LumusRegulatorBlock: Block(
         super.onBlockRemoved(state, world, pos, newState, moved)
     }
 
-    override fun createBlockEntity(view: BlockView) = LumusRegulator()
+    override fun createBlockEntity(view: BlockView) =
+        LumusRegulator()
 
 }

@@ -1,4 +1,4 @@
-package net.cerulan.luminality.block.entity
+package net.cerulan.luminality.block.entity.lumus
 
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.attr.LumusSink

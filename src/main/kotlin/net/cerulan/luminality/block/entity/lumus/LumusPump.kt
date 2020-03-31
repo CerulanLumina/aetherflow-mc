@@ -1,4 +1,4 @@
-package net.cerulan.luminality.block.entity
+package net.cerulan.luminality.block.entity.lumus
 
 import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.LuminalityAttributes
@@ -15,7 +15,6 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.Tickable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
 class LumusPump(
@@ -26,7 +25,8 @@ class LumusPump(
         val range = 16
     }
 
-    private val beamHandler = BeamHandler(this, null, range, pos, {
+    private val beamHandler = BeamHandler(this, null,
+        range, pos, {
         world!!.setBlockState(pos, cachedState.with(LumusPumpBlock.Props.valid, it))
         sync()
     }, {sync()})

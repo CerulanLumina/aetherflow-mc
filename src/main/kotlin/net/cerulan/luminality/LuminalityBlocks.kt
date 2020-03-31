@@ -3,6 +3,9 @@ package net.cerulan.luminality
 import net.cerulan.luminality.block.LuminalFurnaceBlock
 import net.cerulan.luminality.block.ShimmerInducerBlock
 import net.cerulan.luminality.block.entity.*
+import net.cerulan.luminality.block.entity.lumus.LumusPump
+import net.cerulan.luminality.block.entity.lumus.LumusRedirector
+import net.cerulan.luminality.block.entity.lumus.LumusRegulator
 import net.cerulan.luminality.block.lumus.LumusRegulatorBlock
 import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.cerulan.luminality.block.lumus.LumusRedirectorBlock
