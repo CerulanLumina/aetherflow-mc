@@ -7,7 +7,7 @@
     },
     {
       "when": {
-        "input": "north",
+        "side1": "north",
         "valid": "true"
       },
       "apply": {
@@ -16,7 +16,7 @@
     },
     {
       "when": {
-        "input": "east",
+        "side1": "east",
         "valid": "true"
       },
       "apply": {
@@ -26,7 +26,7 @@
     },
     {
       "when": {
-        "input": "south",
+        "side1": "south",
         "valid": "true"
       },
       "apply": {
@@ -36,7 +36,7 @@
     },
     {
       "when": {
-        "input": "west",
+        "side1": "west",
         "valid": "true"
       },
       "apply": {
@@ -46,7 +46,7 @@
     },
     {
       "when": {
-        "input": "up",
+        "side1": "up",
         "valid": "true"
       },
       "apply": {
@@ -56,7 +56,7 @@
     },
     {
       "when": {
-        "input": "down",
+        "side1": "down",
         "valid": "true"
       },
       "apply": {
@@ -66,7 +66,7 @@
     },
     {
       "when": {
-        "output": "north",
+        "side2": "north",
         "valid": "true"
       },
       "apply": {
@@ -75,7 +75,7 @@
     },
     {
       "when": {
-        "output": "east",
+        "side2": "east",
         "valid": "true"
       },
       "apply": {
@@ -85,7 +85,7 @@
     },
     {
       "when": {
-        "output": "south",
+        "side2": "south",
         "valid": "true"
       },
       "apply": {
@@ -95,7 +95,7 @@
     },
     {
       "when": {
-        "output": "west",
+        "side2": "west",
         "valid": "true"
       },
       "apply": {
@@ -105,7 +105,7 @@
     },
     {
       "when": {
-        "output": "up",
+        "side2": "up",
         "valid": "true"
       },
       "apply": {
@@ -115,7 +115,7 @@
     },
     {
       "when": {
-        "output": "down",
+        "side2": "down",
         "valid": "true"
       },
       "apply": {
@@ -125,7 +125,7 @@
     },
     {
       "when": {
-        "input": "north",
+        "side1": "north",
         "valid": "false"
       },
       "apply": {
@@ -134,7 +134,7 @@
     },
     {
       "when": {
-        "input": "east",
+        "side1": "east",
         "valid": "false"
       },
       "apply": {
@@ -144,7 +144,7 @@
     },
     {
       "when": {
-        "input": "south",
+        "side1": "south",
         "valid": "false"
       },
       "apply": {
@@ -154,7 +154,7 @@
     },
     {
       "when": {
-        "input": "west",
+        "side1": "west",
         "valid": "false"
       },
       "apply": {
@@ -164,7 +164,7 @@
     },
     {
       "when": {
-        "input": "up",
+        "side1": "up",
         "valid": "false"
       },
       "apply": {
@@ -174,7 +174,7 @@
     },
     {
       "when": {
-        "input": "down",
+        "side1": "down",
         "valid": "false"
       },
       "apply": {
@@ -184,7 +184,7 @@
     },
     {
       "when": {
-        "output": "north",
+        "side2": "north",
         "valid": "false"
       },
       "apply": {
@@ -193,7 +193,7 @@
     },
     {
       "when": {
-        "output": "east",
+        "side2": "east",
         "valid": "false"
       },
       "apply": {
@@ -203,7 +203,7 @@
     },
     {
       "when": {
-        "output": "south",
+        "side2": "south",
         "valid": "false"
       },
       "apply": {
@@ -213,7 +213,7 @@
     },
     {
       "when": {
-        "output": "west",
+        "side2": "west",
         "valid": "false"
       },
       "apply": {
@@ -223,7 +223,7 @@
     },
     {
       "when": {
-        "output": "up",
+        "side2": "up",
         "valid": "false"
       },
       "apply": {
@@ -233,7 +233,7 @@
     },
     {
       "when": {
-        "output": "down",
+        "side2": "down",
         "valid": "false"
       },
       "apply": {
@@ -243,8 +243,8 @@
     },
     {
       "when": {
-        "input": "up|down",
-        "output": "north|south"
+        "side1": "up|down",
+        "side2": "north|south"
       },
       "apply": {
         "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
@@ -254,8 +254,8 @@
     },
     {
       "when": {
-        "input": "up|down",
-        "output": "east|west"
+        "side1": "up|down",
+        "side2": "east|west"
       },
       "apply": {
         "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
@@ -264,8 +264,8 @@
     },
     {
       "when": {
-        "input": "north|south",
-        "output": "up|down"
+        "side1": "north|south",
+        "side2": "up|down"
       },
       "apply": {
         "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
@@ -275,8 +275,8 @@
     },
     {
       "when": {
-        "input": "east|west",
-        "output": "up|down"
+        "side1": "east|west",
+        "side2": "up|down"
       },
       "apply": {
         "model": "luminality:block/lumus_redirector/lumus_redirector_caps",
@@ -285,8 +285,8 @@
     },
     {
       "when": {
-        "input": "north|south|east|west",
-        "output": "north|south|east|west"
+        "side1": "north|south|east|west",
+        "side2": "north|south|east|west"
       },
       "apply": {
         "model": "luminality:block/lumus_redirector/lumus_redirector_caps"

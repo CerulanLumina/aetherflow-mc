@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.math.*
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 import kotlin.math.abs
 
@@ -42,7 +41,7 @@ object LuminalityUtil {
     }
 
     fun Direction.rotateRelativeClockwise(normal: Direction): Direction {
-        return when (normal.axis) {
+        return when (normal.axis!!) {
             Direction.Axis.X -> if (normal == Direction.WEST) {
                 when (this) {
                     Direction.UP -> Direction.SOUTH

@@ -36,7 +36,8 @@ object LumusRedirectorBlock : Block(
     BlockEntityProvider {
 
     object Props {
-        val output = DirectionProperty.of("output") { true }
+        val side1 = DirectionProperty.of("side1") { true }
+        val side2 = DirectionProperty.of("side2") { true }
     }
 
     private val outlineMap: EnumMap<Direction, VoxelShape> = EnumMap(Direction::class.java)
@@ -48,19 +49,19 @@ object LumusRedirectorBlock : Block(
         outlineMap[Direction.WEST] = VoxelShapes.cuboid(0.0625, 0.25, 0.25, 0.625, 0.75, 0.75)
         outlineMap[Direction.NORTH] = VoxelShapes.cuboid(0.25, 0.25, 0.0625, 0.75, 0.75, 0.625)
         outlineMap[Direction.SOUTH] = VoxelShapes.cuboid(0.25, 0.25, 1-0.0625, 0.75, 0.75, 1-0.625)
-        defaultState = LumusRedirectorBlock.stateManager.defaultState.with(Props.output, Direction.DOWN)
-            .with(LumusPumpBlock.Props.input, Direction.WEST).with(LumusPumpBlock.Props.valid, false)
+        defaultState = LumusRedirectorBlock.stateManager.defaultState.with(Props.side1, Direction.WEST)
+            .with(Props.side2, Direction.NORTH).with(LumusPumpBlock.Props.valid, false)
 
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(Props.output, LumusPumpBlock.Props.input, LumusPumpBlock.Props.valid)
+        builder.add(Props.side1, Props.side2, LumusPumpBlock.Props.valid)
     }
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
         list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
-        if (be is LumusRedirector && list.searchDirection == state[LumusPumpBlock.Props.input]) {
+        if (be is LumusRedirector && list.searchDirection == be.inputDirection) {
             list.offer(be.inputSink)
         }
     }
@@ -71,10 +72,10 @@ object LumusRedirectorBlock : Block(
         val hy = MathHelper.fractionalPart(ctx.hitPos.y)
         val hz = MathHelper.fractionalPart(ctx.hitPos.z)
 
-        val input = LuminalityUtil.getDirectionFromHitPos(ctx.side, hx, hy, hz)
-        val output = input.rotateRelativeClockwise(ctx.side)
+        val side1 = LuminalityUtil.getDirectionFromHitPos(ctx.side, hx, hy, hz)
+        val side2 = side1.rotateRelativeClockwise(ctx.side)
 
-        return defaultState.with(LumusPumpBlock.Props.input, input).with(Props.output, output)
+        return defaultState.with(Props.side1, side1).with(Props.side2, side2)
     }
 
     override fun createBlockEntity(view: BlockView) = LumusRedirector()
@@ -103,9 +104,9 @@ object LumusRedirectorBlock : Block(
         ePos: EntityContext
     ): VoxelShape {
 
-        val inD = state[LumusPumpBlock.Props.input]
+        val inD = state[Props.side1]
         val input = outlineMap[inD]
-        val output = outlineMap[state[Props.output]]
+        val output = outlineMap[state[Props.side2]]
 
         return VoxelShapes.union(input, output)
     }

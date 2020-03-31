@@ -6,38 +6,50 @@ import net.cerulan.luminality.api.attr.LumusSource
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import java.util.*
 import kotlin.properties.Delegates
 
 open class BeamHandler(
-    val parent: BlockEntity,
-    var inputNode: LumusSource?,
-    var range: Int,
-    var startBlockPos: BlockPos,
-    var onValidChange: (Boolean) -> Unit,
-    var syncCallback: () -> Unit,
+    open val parent: BlockEntity,
+    open var inputNode: LumusSource?,
+    open var range: Int,
+    open var startBlockPos: BlockPos,
+    open var onValidChange: (Boolean) -> Unit,
+    open var syncCallback: () -> Unit,
     defaultDir: Direction? = null
 ) {
 
-    var direction: Direction? by Delegates.observable(defaultDir) { _, _, _ ->
+    protected open var cachedPosMap: EnumMap<Direction, Array<BlockPos>> = EnumMap(Direction::class.java)
+
+    protected open fun generateCachedPosMap() {
+        Direction.values().forEach { dir ->
+            cachedPosMap[dir] = Array(range) {
+                startBlockPos.offset(dir, it + 1)
+            }
+        }
+    }
+
+    open var direction: Direction? by Delegates.observable(defaultDir) { _, _, _ ->
         refreshCachedPos()
     }
 
     open val sinkInsertDirection
         get() = direction?.opposite
 
-    protected open val cachedPos = ArrayList<BlockPos>(range)
+    protected open var cachedPos: Array<BlockPos>? = null
 
     protected open fun refreshCachedPos() {
-        if (direction == null) return
-        cachedPos.clear()
-        (0..range).forEach {
-            cachedPos.add(startBlockPos.offset(direction, it + 1))
-        }
+        if (!hasCacheMap) generateCachedPosMap()
+        cachedPos = if (direction == null) null
+        else cachedPosMap[direction]!!
     }
 
-    private var active: Boolean by Delegates.observable(false) { _, _, newValue -> onValidChange(newValue) }
+    open var active: Boolean by Delegates.observable(false) { _, _, newValue -> onValidChange(newValue) }
+        protected set
 
-    val target: BeamTarget = BeamTarget()
+    open val target: BeamTarget = BeamTarget()
+
+    private var hasCacheMap = false
 
     open fun tick() {
         // We are already active, inputNode is still nonnull, and we have a cached sink
@@ -46,7 +58,7 @@ open class BeamHandler(
             if (target.cachedSink != sink)
                 target.blockPos = target.blockPos // refresh cachedSink
 
-            if (sink != null && cachedPos.first { pos -> !target.world!!.getBlockState(pos).isAir } == target.blockPos) {
+            if (sink != null && cachedPos?.first { pos -> !target.world!!.getBlockState(pos).isAir } == target.blockPos) {
                 if (inputNode!!.power.copy(sink.power)) syncCallback()
             } else {
                 unsetTarget()
@@ -54,7 +66,7 @@ open class BeamHandler(
 
         } else if (inputNode != null && target.blockPos == null && target.world != null) {
             // We at least have an input node, but we have no target yet
-            val firstNonAir = cachedPos.firstOrNull { searchPos -> !target.world!!.getBlockState(searchPos).isAir }
+            val firstNonAir = cachedPos?.firstOrNull { searchPos -> !target.world!!.getBlockState(searchPos).isAir }
             val attr = firstNonAir?.let {
                 LuminalityAttributes.lumusSink.getFirstOrNull(
                     target.world!!,
@@ -75,7 +87,7 @@ open class BeamHandler(
         }
     }
 
-    private fun unsetTarget() {
+    protected open fun unsetTarget() {
         active = false
         target.blockPos = null
     }
