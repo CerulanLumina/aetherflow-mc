@@ -89,6 +89,7 @@ open class BeamHandler(
 
     protected open fun unsetTarget() {
         active = false
+        target.cachedSink?.power?.zero()
         target.blockPos = null
     }
 
