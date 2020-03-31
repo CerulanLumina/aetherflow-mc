@@ -81,12 +81,15 @@ class LumusRedirector : BlockEntity(LuminalityBlocks.BlockEntities.lumusRedirect
     }
 
     override fun toClientTag(tag: CompoundTag): CompoundTag {
-        if (beamHandler.target.blockPos != null && beamHandler.inputNode?.power?.radiance ?: 0 > 0)
+        tag.putBoolean("sidesInverted", sidesInverted)
+        if (beamHandler.target.blockPos != null && beamHandler.inputNode?.power?.radiance ?: 0 > 0) {
             tag.putVec3d("target", beamHandler.target.blockPos!!.toVec3d()!!)
+        }
         return tag
     }
 
     override fun fromClientTag(tag: CompoundTag) {
+        sidesInverted = tag.getBoolean("sidesInverted")
         targetPos = tag.getVec3d("target")
     }
 
