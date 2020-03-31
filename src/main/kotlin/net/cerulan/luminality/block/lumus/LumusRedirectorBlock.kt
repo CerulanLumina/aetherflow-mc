@@ -4,7 +4,6 @@ import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
 import net.cerulan.luminality.LuminalityUtil
 import net.cerulan.luminality.LuminalityUtil.rotateRelativeClockwise
-import net.cerulan.luminality.api.attr.LumusPumpMarker
 import net.cerulan.luminality.block.entity.LumusRedirector
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -59,7 +58,6 @@ object LumusRedirectorBlock : Block(
     }
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
-        list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
         if (be is LumusRedirector && list.searchDirection == be.inputDirection) {
             list.offer(be.inputSink)

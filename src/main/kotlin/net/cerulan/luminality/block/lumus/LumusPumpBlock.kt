@@ -1,8 +1,5 @@
 package net.cerulan.luminality.block.lumus
 
-import alexiil.mc.lib.attributes.AttributeList
-import alexiil.mc.lib.attributes.AttributeProvider
-import net.cerulan.luminality.api.attr.LumusPumpMarker
 import net.cerulan.luminality.block.entity.LumusPump
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -29,7 +26,6 @@ object LumusPumpBlock :
             10f
         ).sounds(BlockSoundGroup.METAL).build()
     ),
-    AttributeProvider,
     BlockEntityProvider {
 
     object Props {
@@ -43,10 +39,6 @@ object LumusPumpBlock :
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(Props.input, Props.valid)
-    }
-
-    override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
-        list.offer(LumusPumpMarker)
     }
 
     @SuppressWarnings("deprecation")

@@ -2,9 +2,6 @@ package net.cerulan.luminality.block.lumus
 
 import alexiil.mc.lib.attributes.AttributeList
 import alexiil.mc.lib.attributes.AttributeProvider
-import net.cerulan.luminality.api.attr.LumusPumpMarker
-import net.cerulan.luminality.block.entity.LumusPump
-import net.cerulan.luminality.block.entity.LumusRedirector
 import net.cerulan.luminality.block.entity.LumusRegulator
 import net.fabricmc.fabric.api.block.FabricBlockSettings
 import net.minecraft.block.Block
@@ -33,7 +30,6 @@ object LumusRegulatorBlock: Block(
     }
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
-        list.offer(LumusPumpMarker)
         val be = world.getBlockEntity(pos)
         if (be is LumusRegulator && list.searchDirection == state[LumusPumpBlock.Props.input]) {
 //            list.offer(be.lumusSink)
