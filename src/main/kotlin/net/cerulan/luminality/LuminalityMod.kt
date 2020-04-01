@@ -1,6 +1,9 @@
 package net.cerulan.luminality
 
 import net.cerulan.luminality.block.entity.*
+import net.cerulan.luminality.block.entity.lumus.LumusPump
+import net.cerulan.luminality.block.entity.lumus.LumusRedirector
+import net.cerulan.luminality.block.entity.lumus.LumusRegulator
 import net.cerulan.luminality.container.LuminalFurnaceController
 import net.cerulan.luminality.networking.LuminalityPackets
 import net.cerulan.luminality.recipe.LuminalityRecipeTypes

@@ -67,10 +67,19 @@ open class LuminalFurnace : BlockEntity(LuminalityBlocks.BlockEntities.luminalFu
         inventory.directions[Direction.DOWN] = 1
     }
 
+    var hasReset = false
+
     override fun tick() {
         if (world!!.isClient) return
 
-        if (lumusSink.power.radiance < minimumRadiance) return
+        if (lumusSink.power.radiance < minimumRadiance && !hasReset) {
+            flowTicks = 0
+            maxFlowTicks = 0
+            hasReset = true
+            sync()
+            return
+        }
+        hasReset = false
         if (!input.getInvStack(0).isEmpty) {
             when (mode) {
                 Mode.ALL -> {

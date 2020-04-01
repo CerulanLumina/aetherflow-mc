@@ -1,14 +1,8 @@
 package net.cerulan.luminality.block.lumus
 
-import alexiil.mc.lib.attributes.AttributeList
-import alexiil.mc.lib.attributes.AttributeProvider
-import net.cerulan.luminality.api.attr.LumusPumpMarker
-import net.cerulan.luminality.block.entity.LumusPump
+import net.cerulan.luminality.block.entity.lumus.LumusPump
 import net.fabricmc.fabric.api.block.FabricBlockSettings
-import net.minecraft.block.Block
-import net.minecraft.block.BlockEntityProvider
-import net.minecraft.block.BlockState
-import net.minecraft.block.Material
+import net.minecraft.block.*
 import net.minecraft.entity.EntityContext
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.BlockSoundGroup
@@ -23,13 +17,12 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 object LumusPumpBlock :
-    Block(
+    AbstractGlassBlock(
         FabricBlockSettings.of(Material.GLASS).nonOpaque().breakByHand(true).strength(
             0.5f,
             10f
         ).sounds(BlockSoundGroup.METAL).build()
     ),
-    AttributeProvider,
     BlockEntityProvider {
 
     object Props {
@@ -45,10 +38,6 @@ object LumusPumpBlock :
         builder.add(Props.input, Props.valid)
     }
 
-    override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
-        list.offer(LumusPumpMarker)
-    }
-
     @SuppressWarnings("deprecation")
     override fun onBlockRemoved(
         state: BlockState,
@@ -60,8 +49,7 @@ object LumusPumpBlock :
         if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusPump) {
-
-//            be.unsetTarget()
+            be.onBroken()
         }
         super.onBlockRemoved(state, world, pos, newState, moved)
     }

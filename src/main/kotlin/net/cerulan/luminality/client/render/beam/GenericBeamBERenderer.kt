@@ -1,6 +1,7 @@
 package net.cerulan.luminality.client.render.beam
 
 import net.cerulan.luminality.api.client.BeamRenderAPI
+import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher

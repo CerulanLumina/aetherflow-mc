@@ -1,0 +1,6 @@
+{
+  "parent": "luminality:block/lumus_redirector/lumus_redirector_prong",
+  "textures": {
+    "4": "luminality:block/lumus_redirector/lumus_redirector_status_off"
+  }
+}

@@ -1,6 +1,5 @@
 package net.cerulan.luminality.inventory
 
-import alexiil.mc.lib.attributes.item.compat.SidedInventoryFixedWrapper
 import com.google.common.collect.ImmutableList
 import net.minecraft.inventory.Inventory
 import net.minecraft.recipe.Recipe

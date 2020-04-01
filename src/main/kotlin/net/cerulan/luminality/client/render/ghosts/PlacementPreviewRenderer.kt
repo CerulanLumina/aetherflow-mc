@@ -1,6 +1,7 @@
 package net.cerulan.luminality.client.render.ghosts
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap
+import net.cerulan.luminality.api.client.PreviewRenderAPI
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.BufferBuilder
@@ -42,6 +43,7 @@ object PlacementPreviewRenderer {
         }
         val item = stack.item
         if (item is BlockItem) {
+            if (!PreviewRenderAPI.needsPreview(item.block)) return null
             return item.block.getPlacementState(ItemPlacementContext(ItemUsageContext(playerEntity, hand, hit)))
         }
         return null
