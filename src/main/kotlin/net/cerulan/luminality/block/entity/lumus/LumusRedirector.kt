@@ -55,7 +55,7 @@ class LumusRedirector : BlockEntity(LuminalityBlocks.BlockEntities.lumusRedirect
 
     override fun tick() {
         if (world!!.isClient) return
-        if (inputSink.power.copy(redirectSource.power)) sync()
+        if (inputSink.power.copyToOther(redirectSource.power)) sync()
         if (beamHandler.direction !== outputDirection) {
             onBroken()
             beamHandler.direction = outputDirection

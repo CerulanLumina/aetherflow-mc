@@ -1,17 +1,21 @@
 package net.cerulan.luminality.api
 
-data class LumusPower(var radiance: Int, var flow: Int, var stability: Int = maximumStability) {
+class LumusPower(var radiance: Int, var flow: Int, var stability: Int = maximumStability) : LumusPowerCopy {
 
     companion object {
         const val maximumStability = 1
     }
 
-    fun copy(other: LumusPower): Boolean {
-        val ret = flow != other.flow || radiance != other.radiance || stability != other.stability
-        other.flow = flow
-        other.radiance = radiance
-        other.stability = stability
+    override fun receiveCopyData(radiance: Int, flow: Int, stability: Int): Boolean {
+        val ret = radiance != this.radiance || flow != this.flow || stability != this.stability
+        this.radiance = radiance
+        this.flow = flow
+        this.stability = stability
         return ret
+    }
+
+    override fun copyToOther(other: LumusPowerCopy): Boolean {
+        return other.receiveCopyData(radiance, flow, stability)
     }
 
     fun zero() {

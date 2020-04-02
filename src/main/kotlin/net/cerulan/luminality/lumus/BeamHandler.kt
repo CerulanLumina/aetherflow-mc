@@ -59,7 +59,7 @@ open class BeamHandler(
                 target.blockPos = target.blockPos // refresh cachedSink
 
             if (sink != null && cachedPos?.first { pos -> !target.world!!.getBlockState(pos).isAir } == target.blockPos) {
-                if (inputNode!!.power.copy(sink.power)) syncCallback()
+                if (inputNode!!.power.copyToOther(sink.power)) syncCallback()
             } else {
                 unsetTarget()
             }

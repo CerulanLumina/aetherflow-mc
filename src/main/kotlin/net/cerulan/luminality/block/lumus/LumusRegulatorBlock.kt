@@ -28,8 +28,8 @@ object LumusRegulatorBlock: AbstractGlassBlock (
 
     override fun addAllAttributes(world: World, pos: BlockPos, state: BlockState, list: AttributeList<*>) {
         val be = world.getBlockEntity(pos)
-        if (be is LumusRegulator && list.searchDirection == state[LumusPumpBlock.Props.input]) {
-//            list.offer(be.lumusSink)
+        if (be is LumusRegulator && list.searchDirection == be.inputDirection) {
+            list.offer(be.inputSink)
         }
     }
 
@@ -48,7 +48,7 @@ object LumusRegulatorBlock: AbstractGlassBlock (
         if (newState.block == this || world.isClient) return
         val be = world.getBlockEntity(pos)
         if (be is LumusRegulator) {
-//            be.unsetTarget()
+            be.onBroken()
         }
         super.onBlockRemoved(state, world, pos, newState, moved)
     }
