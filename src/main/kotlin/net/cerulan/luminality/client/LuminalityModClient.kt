@@ -4,6 +4,7 @@ import net.cerulan.luminality.LuminalityBlocks
 import net.cerulan.luminality.api.client.BeamRenderAPI
 import net.cerulan.luminality.api.client.PreviewRenderAPI
 import net.cerulan.luminality.block.entity.lumus.LumusRedirector
+import net.cerulan.luminality.block.entity.lumus.LumusRegulator
 import net.cerulan.luminality.block.lumus.LumusPumpBlock
 import net.cerulan.luminality.block.lumus.LumusRedirectorBlock
 import net.cerulan.luminality.block.lumus.LumusRegulatorBlock
@@ -33,6 +34,14 @@ object LuminalityModClient : ClientModInitializer {
                 it.pos.toVec3d()?.add(0.5, 0.5, 0.5)?.add(it.inputDirection.vector.toVec3d()!!.multiply(0.4))
             } else null
         }
+        BeamRenderAPI.registerDefaultBeamRenderer(LuminalityBlocks.BlockEntities.lumusRegulatorEntity,
+            {lr -> lr.startPos?.add(0.5, 0.5, 0.5)?.add(lr.outputDirection.vector.toVec3d()!!.multiply(0.4))}, {lr -> lr.targetPos})
+        BeamRenderAPI.registerIncomingBeamPosOverride(Identifier("luminality", "lumus_regulator")) {
+            if (it is LumusRegulator) {
+                it.pos.toVec3d()?.add(0.5, 0.5, 0.5)?.add(it.inputDirection.vector.toVec3d()!!.multiply(0.45))
+            } else null
+        }
+
 
         PreviewRenderAPI.registerNeedsPreview(LumusPumpBlock)
         PreviewRenderAPI.registerNeedsPreview(LumusRedirectorBlock)
